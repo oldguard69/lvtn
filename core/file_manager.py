@@ -1,3 +1,6 @@
+import json
+
+
 class FileManager:
     def __init__(self, encoding='utf-8-sig'):
         self.encoding = encoding
@@ -38,6 +41,15 @@ class FileManager:
 
     def read_urls(self, filepath):
         return self.read_line_by_line(filepath)
+
+    # *** json file manipulation ***
+    def write_json(self, file, content):
+        with open(file, 'w') as f:
+            json.dump(content, f)
+    
+    def read_json(self, file):
+        with open(file, 'r') as f:
+            return json.load(f)
 
     
 

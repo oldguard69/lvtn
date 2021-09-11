@@ -15,6 +15,10 @@ class TextPreprocessor:
     def remove_tab_and_new_line_char(self, text: str) -> str:
         return re.sub('[\n\t]', '', text)
 
+    def remove_extra_whitespace(self, text: str) -> str:
+        t = self.remove_tab_and_new_line_char(text)
+        return re.sub(' +', ' ', t)
+
     def find_invalid_unicode_chars(self, text):
         '''Invalid unicode chars are characters are not alphanumeric, and don't belong to punctuation_set'''
         invalid_chars = set()
