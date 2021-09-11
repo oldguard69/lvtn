@@ -6,10 +6,15 @@ class FileManager:
         self.encoding = encoding
 
     # *** core method ***
-    def write_line(self, file, content):
+    def append_single_line(self, file, content):
         '''Append content in a new line'''
         with open(file, 'a', encoding=self.encoding) as f:
             f.write(f'{content}\n')
+
+    def append_lines(self, file, lines):
+        with open(file, 'w', encoding=self.encoding) as f:
+            for line in lines:
+                f.write(f'{line}\n')
 
     def write_whole_file(self, file, content):
         '''WARNING: this function will overwrite content of old file if it exists'''
