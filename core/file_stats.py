@@ -12,6 +12,8 @@ def file_stats(path):
         print(f'{folder}: {num_of_file} files')
     print(f'Total file in {path}: {total}')
 
-file_stats(train_path)
-print(LINE_BREAK)
-file_stats(test_path)
+# file_stats(train_path)
+# print(LINE_BREAK)
+# file_stats(test_path)
+
+print(len(os.listdir('../../corpus/dhct_clean')))

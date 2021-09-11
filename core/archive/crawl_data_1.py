@@ -1,8 +1,4 @@
-from typing import Set
 import textract
-import nltk
-nltk.download('punkt')
-from nltk.tokenize import sent_tokenize
 import re
 import os
 import requests
@@ -67,36 +63,22 @@ for file in os.listdir(pdf_folder):
 
 
 
-# ===================================== clean crawl data =====================================
-from .regex_helper import invalid_vietnamese_chars, find_invalid_unicode_character
+# ===================================== clean raw data =====================================
+from  util.shared import read_file, write_to_file
+from .text_preprocessor import TextPreprocessor
 
-def find_all_invalid_unicode_characters(raw_text_folder=raw_text_folder) -> Set:
-    '''Scanning all raw text file and find invalid characters'''
-    invalid_chars = set()
-    for file in os.listdir(raw_text_folder):
-        with open(os.path.join(raw_text_folder, file), encoding='utf-8') as f:
-            text = f.read()
-            invalid_char = find_invalid_unicode_character(text)
-            invalid_chars = invalid_chars.union(invalid_char)
-invalid_unicode_chars = find_all_invalid_unicode_characters(raw_text_folder)
+processor = TextPreprocessor()
 
-
-def remove_invalid_chars(text):
-     s = re.sub(invalid_vietnamese_chars, ' ', text)
-     s = re.sub(invalid_unicode_chars, ' ', s)
-     return s
-
-
-# remove invalid characters from raw text
-# the clean text still contain number and punctuations
+# clean raw text
 for file in os.listdir(raw_text_folder):
-    with open(os.path.join(raw_text_folder, file), 'r', encoding='utf-8-sig') as f:
-        text = f.read()
-        text = remove_invalid_chars(text)
-        with open(os.path.join(clean_text_folder, file), 'w', encoding='utf-8-sig') as f1:
-            f1.write(text)
+    text = read_file(os.path.join(raw_text_folder, file))
+    text = processor.remove_invalid_unicode(text)
+    text = re.sub('Tap chi Khoa hoc Trương Đai hoc Cân Thơ', 'Tạp chí Khoa học Trường Đại học Cần Thơ', text)
+    text = re.sub('Trương Đai hoc Cân Thơ', 'Trường Đại học Cần Thơ', text)
+    text = re.sub('Trương Đai hoc', 'Trường Đại học', text)
+    text = re.sub('Tap chı Khoa hoc Trươ ng Đai hoc Cân Thơ', 'Tạp chí Khoa học Trường Đại học Cần Thơ', text)
+    write_to_file(os.path.join(clean_text_folder, file), text)
     print(file)
-
 
 
 
