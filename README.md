@@ -5,3 +5,11 @@
 - PhoBERT
 - Flask
 - Angular
+
+## Instruction:
+- In server:
+    ```set FLASK_APP=server```
+    ```flask run```
+
+- In client:
+    ```ng serve```

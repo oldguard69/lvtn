@@ -1,0 +1,16 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="wrapper">
+    <app-text-box
+      [sentences]="vm.susp_sent"
+      [fileStat]="vm.fileStat"
+      [fileType]="'susp'"
+    ></app-text-box>
+
+    <app-text-box
+      [sentences]="vm.src_sent"
+      [fileStat]="vm.fileStat"
+      [fileType]="'src'"
+      [srcFileName]="'src_6.txt'"
+    ></app-text-box>
+  </div>
+</ng-container>

@@ -1,0 +1,11 @@
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="doc-wrapper" [maxBufferPx]="1400">
+  <p
+    *cdkVirtualFor="let s of sentences; let i = index"
+    [ngClass]="[getClassColor(i)]"
+    >{{ s }}</p
+  >
+</cdk-virtual-scroll-viewport>
+
+<!-- <p *ngFor="let s of sentences; let i = index" [ngClass]="[getClassColor(i)]">
+    {{ s }}
+  </p> -->

@@ -1,18 +1,35 @@
 import os
 from flask import Flask, jsonify
-from core.file_manager import file_manager
+from werkzeug.wrappers import response
 
-corpus_dir = './corpus'
+from core.file_manager import file_manager
+from functions.helpers import get_response_for_request_file_sentences
+
+
+susp_corpus_dir = './corpus/susp'
+src_corpus_dir = './corpus/src'
 
 
 app = Flask(__name__)
 
-# TODO: handle upload file and save to corpus/susp
-# create embedding and match with all row in src
 
 
-@app.route("/")
-def main():
-    stat = file_manager.read_json(os.path.join(corpus_dir, 'susp', 'susp_2.json'))
-    return jsonify(stat)
+@app.route('/source-doc/<filename>')
+def source_file_senteces(filename):
+    return get_response_for_request_file_sentences(src_corpus_dir, filename)
+
+
+@app.route('/suspicious-doc/<filename>')
+def suspicious_file_sentences(filename):
+    return get_response_for_request_file_sentences(susp_corpus_dir, filename)
+
+
+@app.route("/suspicious-stat/<filename>")
+def main(filename):
+    stat = file_manager.read_json(os.path.join(susp_corpus_dir, 'susp_2.json'))
+    response = jsonify(stat)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+
 
