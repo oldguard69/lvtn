@@ -1,5 +1,5 @@
-<ng-container *ngIf="vm$ | async as vm">
-  <div class="wrapper">
+<ng-container *ngIf="(vm$ | async) as vm">
+  <div *ngIf=vm.fileStat class="wrapper">
     <app-text-box
       [sentences]="vm.susp_sent"
       [fileStat]="vm.fileStat"
@@ -9,11 +9,11 @@
     <div>
       <div class="btn-container">
         <button (click)="load_prev_doc()">Previouse doc</button>
+        <span>{{current_doc$ | async}}</span>
         <button (click)="load_next_doc()">Next doc</button>
       </div>
       <app-text-box
-      *ngIf="src_sents | async as src"
-      [sentences]="src"
+      [sentences]="vm.src_sent"
       [fileStat]="vm.fileStat"
       [fileType]="'src'"
       [srcFileName]="current_doc$ | async"

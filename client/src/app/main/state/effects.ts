@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { exhaustMap, map } from 'rxjs/operators';
+import { exhaustMap, map, tap } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
 import * as actions from './actions';
 
@@ -14,6 +14,18 @@ export class MainEffects {
         this.apiService
           .fetchStatOfSuspiciousFile(action.filename)
           .pipe(map((res) => actions.GetStatOfSuspiciousFileSuccess({ res })))
+      )
+    )
+  );
+
+  loadFirstSourceSentence$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(actions.GetStatOfSuspiciousFileSuccess),
+      map((action) => action.res[0].srcFile),
+      exhaustMap((srcFile) =>
+        this.apiService
+          .fetchSourceFileSentences(srcFile)
+          .pipe(map((res) => actions.GetSourceFileSentencesSuccess({ res })))
       )
     )
   );
@@ -31,7 +43,7 @@ export class MainEffects {
 
   loadSuspiciousSentence$ = createEffect(() =>
     this.action$.pipe(
-      ofType(actions.GetSuspFileSentences),
+      ofType(actions.GetSuspFileSentences, actions.GetStatOfSuspiciousFile),
       exhaustMap((action) =>
         this.apiService
           .fetchSuspiciousFileSentences(action.filename)

@@ -25,6 +25,14 @@ export class TextBoxComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.initializeHighLight()
+  }
+
+  ngOnChanges(): void {
+    this.initializeHighLight()
+  }
+
+  initializeHighLight() {
     if (this.fileType === 'src') {
       this.highlight = this.fileStat
         .filter((item) => item.srcFile === this.srcFileName)
@@ -37,7 +45,6 @@ export class TextBoxComponent implements OnInit {
         indexRange: item.suspIndexRange,
         colorClass: item.colorClass,
       }));
-      console.log(this.highlight)
     }
   }
 
