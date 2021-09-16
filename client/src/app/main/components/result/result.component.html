@@ -6,11 +6,19 @@
       [fileType]="'susp'"
     ></app-text-box>
 
-    <app-text-box
-      [sentences]="vm.src_sent"
+    <div>
+      <div class="btn-container">
+        <button (click)="load_prev_doc()">Previouse doc</button>
+        <button (click)="load_next_doc()">Next doc</button>
+      </div>
+      <app-text-box
+      *ngIf="src_sents | async as src"
+      [sentences]="src"
       [fileStat]="vm.fileStat"
       [fileType]="'src'"
-      [srcFileName]="'src_6.txt'"
+      [srcFileName]="current_doc$ | async"
     ></app-text-box>
+    </div>
+    
   </div>
 </ng-container>

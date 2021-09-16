@@ -19,7 +19,7 @@ export class TextBoxComponent implements OnInit {
   @Input() sentences!: string[];
   @Input() fileType: 'susp' | 'src' = 'susp';
   @Input() fileStat!: SuspiciousStatItem[];
-  @Input() srcFileName!: string;
+  @Input() srcFileName!: string | null;
   highlight!: HighligthObject[];
 
   constructor() {}

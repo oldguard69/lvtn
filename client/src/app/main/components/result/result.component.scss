@@ -4,3 +4,8 @@
     gap: 20px;
     grid-template: 80vh / 1fr 1fr;
 }
+
+.btn_container {
+    display:  flex;
+    justify-content: space-around;
+}

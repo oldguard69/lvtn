@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
@@ -11,11 +11,17 @@ import { ApiService } from '../../services/api.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultComponent implements OnInit {
-  src_name = 'src_6.txt';
   susp_name = 'susp_2.txt';
 
+  private doc_index = 0;
+  private doc_list = ['src_6.txt', 'src_1.txt', 'src_0.txt', 'src_8.txt', 'src_5.txt']
+  private current_doc = new BehaviorSubject<string>(this.doc_list[this.doc_index]);
+  current_doc$ = this.current_doc.asObservable();
+  src_sents = this.apiService.fetchSourceFileSentences(this.current_doc.value);
+  constructor(private apiService: ApiService) {}
+
   vm$ = combineLatest([
-    this.apiService.fetchSourceFileSentences(this.src_name),
+    this.src_sents,
     this.apiService.fetchSuspiciousFileSentences(this.susp_name),
     this.apiService.fetchStatOfSuspiciousFile(this.susp_name),
   ]).pipe(
@@ -26,7 +32,19 @@ export class ResultComponent implements OnInit {
     }))
   );
 
-  constructor(private apiService: ApiService) {}
+ 
 
   ngOnInit(): void {}
+
+  load_prev_doc() {
+    this.doc_index = (this.doc_index - 1) % this.doc_list.length;
+    this.current_doc.next(this.doc_list[this.doc_index]);
+    this.src_sents = this.apiService.fetchSourceFileSentences(this.current_doc.value);
+  }
+
+  load_next_doc() {
+    this.doc_index = (this.doc_index + 1) % this.doc_list.length;
+    this.current_doc.next(this.doc_list[this.doc_index]);
+    this.src_sents = this.apiService.fetchSourceFileSentences(this.current_doc.value)
+  }
 }
