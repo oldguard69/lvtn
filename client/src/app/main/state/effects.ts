@@ -18,6 +18,7 @@ export class MainEffects {
     )
   );
 
+  // after fetching the stat, load sentences of the first source doc
   loadFirstSourceSentence$ = createEffect(() =>
     this.action$.pipe(
       ofType(actions.GetStatOfSuspiciousFileSuccess),

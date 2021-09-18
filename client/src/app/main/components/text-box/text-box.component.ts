@@ -1,13 +1,17 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
   Input,
+  ViewChild,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   SuspiciousStatItem,
   HighligthObject,
 } from '../../interface/susp-stat.interface';
+import { selectSourceSentences } from '../../state/selectors';
 
 @Component({
   selector: 'app-text-box',
@@ -22,7 +26,8 @@ export class TextBoxComponent implements OnInit {
   @Input() srcFileName!: string | null;
   highlight!: HighligthObject[];
 
-  constructor() {}
+  @ViewChild('cdkViewport') cdkViewport!: CdkVirtualScrollViewport;
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.initializeHighLight()
@@ -30,6 +35,10 @@ export class TextBoxComponent implements OnInit {
 
   ngOnChanges(): void {
     this.initializeHighLight()
+  }
+
+  ngAfterViewInit() {
+    this.scrollToTop();
   }
 
   initializeHighLight() {
@@ -55,5 +64,13 @@ export class TextBoxComponent implements OnInit {
       }
     }
     return 'no-color';
+  }
+
+  private scrollToTop() {
+    if (this.fileType == 'src') {
+      this.store.select(selectSourceSentences).subscribe(res =>
+        this.cdkViewport.scrollToIndex(0, 'smooth')
+      )
+    }
   }
 }

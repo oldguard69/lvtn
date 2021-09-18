@@ -20,11 +20,11 @@ export class ResultComponent implements OnInit {
   susp_name = 'susp_2.txt';
 
   private doc_index = 0;
-  private doc_list: string[] = [];
-  private current_doc = new BehaviorSubject<string>(
-    this.doc_list[this.doc_index]
+  private source_doc_list: string[] = [];
+  private current_source_doc = new BehaviorSubject<string>(
+    this.source_doc_list[this.doc_index]
   );
-  current_doc$ = this.current_doc.asObservable();
+  current_source_doc$ = this.current_source_doc.asObservable();
 
   vm$ = combineLatest([
     this.store.select(selectSuspiciousStats),
@@ -49,8 +49,8 @@ export class ResultComponent implements OnInit {
       .select(selectSourceFileList)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((files) => {
-        this.doc_list = files;
-        this.current_doc.next(files[0]);
+        this.source_doc_list = files;
+        this.current_source_doc.next(files[0]);
       });
   }
 
@@ -59,21 +59,21 @@ export class ResultComponent implements OnInit {
   }
 
   load_prev_doc() {
-    this.doc_index - 1 < 0 ? this.doc_index = this.doc_list.length - 1 : this.doc_index--;
+    this.doc_index - 1 < 0 ? this.doc_index = this.source_doc_list.length - 1 : this.doc_index--;
     this.moveSourceFile();
   }
 
   load_next_doc() {
-    this.doc_index = (this.doc_index + 1) % this.doc_list.length;
+    this.doc_index = (this.doc_index + 1) % this.source_doc_list.length;
     this.moveSourceFile()
   }
 
-  moveSourceFile() {
+  private moveSourceFile() {
     this.store.dispatch(
       actions.GetSourceFileSentences({
-        filename: this.doc_list[this.doc_index],
+        filename: this.source_doc_list[this.doc_index],
       })
     );
-    this.current_doc.next(this.doc_list[this.doc_index]);
+    this.current_source_doc.next(this.source_doc_list[this.doc_index]);
   }
 }

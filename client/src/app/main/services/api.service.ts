@@ -29,7 +29,7 @@ export class ApiService {
     filename: string
   ): Observable<SuspiciousStatItem[]> {
     return this.http
-      .get<SuspiciousStatItem[]>(`${this.api_url}/suspicious-stat/${filename}`)
+      .get<SuspiciousStatItem[]>(`${this.api_url}/suspicious-stat/${filename.slice(0, -4)}.json`)
       .pipe(
         map((res) =>
           res.map((item, index) => ({

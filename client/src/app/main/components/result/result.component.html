@@ -9,14 +9,14 @@
     <div>
       <div class="btn-container">
         <button (click)="load_prev_doc()">Previouse doc</button>
-        <span>{{current_doc$ | async}}</span>
+        <span>{{current_source_doc$ | async}}</span>
         <button (click)="load_next_doc()">Next doc</button>
       </div>
       <app-text-box
       [sentences]="vm.src_sent"
       [fileStat]="vm.fileStat"
       [fileType]="'src'"
-      [srcFileName]="current_doc$ | async"
+      [srcFileName]="current_source_doc$ | async"
     ></app-text-box>
     </div>
     

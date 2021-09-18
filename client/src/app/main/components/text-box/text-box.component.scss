@@ -6,7 +6,11 @@
 
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
     padding: 10px;
-    // min-width: 90% !important;
+    min-width: 90% !important;
+}
+
+p {
+    height: 100px;
 }
 
 ::ng-deep .color-0 {
