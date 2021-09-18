@@ -1,10 +1,10 @@
 <ng-container *ngIf="(vm$ | async) as vm">
   <div *ngIf=vm.fileStat class="wrapper">
-    <app-text-box
+    <app-raw-scroll
       [sentences]="vm.susp_sent"
       [fileStat]="vm.fileStat"
       [fileType]="'susp'"
-    ></app-text-box>
+    ></app-raw-scroll>
 
     <div>
       <div class="btn-container">
@@ -12,12 +12,12 @@
         <span>{{current_source_doc$ | async}}</span>
         <button (click)="load_next_doc()">Next doc</button>
       </div>
-      <app-text-box
+      <app-raw-scroll
       [sentences]="vm.src_sent"
       [fileStat]="vm.fileStat"
       [fileType]="'src'"
       [srcFileName]="current_source_doc$ | async"
-    ></app-text-box>
+    ></app-raw-scroll>
     </div>
     
   </div>

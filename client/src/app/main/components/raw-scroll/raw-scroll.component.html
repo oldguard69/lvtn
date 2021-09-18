@@ -1,0 +1,10 @@
+<div class="wrapper">
+  <div class="item-viewport" #itemsviewport>
+    <p
+      *ngFor="let s of sentences; let i = index"
+      [ngClass]="[getClassColor(i)]"
+    >
+      {{ s }}
+    </p>
+  </div>
+</div>
