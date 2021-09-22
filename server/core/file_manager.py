@@ -1,4 +1,5 @@
 import json
+import pickle
 
 
 class FileManager:
@@ -56,6 +57,14 @@ class FileManager:
         with open(file, 'r') as f:
             return json.load(f)
 
+    # *** pickcle file ***
+    def pickle_dump(object, file):
+        with open(file, 'wb') as f:
+            pickle.dump(object, f)
+
+    def pickle_load(file):
+        with open(file, 'rb') as f:
+            return pickle.load(f)
     
 
 file_manager = FileManager()

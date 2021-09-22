@@ -15,7 +15,7 @@ class TextPreprocessor:
     def remove_tab_and_new_line_char(self, text: str) -> str:
         return re.sub('[\n\t]', '', text)
 
-    def remove_extra_whitespace(self, text: str) -> str:
+    def remove_duplicate_whitespace(self, text: str) -> str:
         t = self.remove_tab_and_new_line_char(text)
         return re.sub(' +', ' ', t)
 

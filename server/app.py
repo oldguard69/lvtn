@@ -1,6 +1,5 @@
 import os
 from flask import Flask, jsonify
-from werkzeug.wrappers import response
 
 from core.file_manager import file_manager
 from functions.helpers import get_response_for_request_file_sentences
@@ -26,7 +25,7 @@ def suspicious_file_sentences(filename):
 
 @app.route("/suspicious-stat/<filename>")
 def main(filename):
-    stat = file_manager.read_json(os.path.join(susp_corpus_dir, 'susp_2.json'))
+    stat = file_manager.read_json(os.path.join(susp_corpus_dir, filename))
     response = jsonify(stat)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response

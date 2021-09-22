@@ -1,0 +1,29 @@
+{
+  "type": "automatic",
+  "file_stat": [
+    {
+      "src_file": "src_16.txt",
+      "paragraph_len": 63,
+      "start_index": 32,
+      "insert_index": 13
+    },
+    {
+      "src_file": "src_38.txt",
+      "paragraph_len": 25,
+      "start_index": 150,
+      "insert_index": 94
+    },
+    {
+      "src_file": "src_18.txt",
+      "paragraph_len": 36,
+      "start_index": 37,
+      "insert_index": 161
+    },
+    {
+      "src_file": "src_31.txt",
+      "paragraph_len": 88,
+      "start_index": 222,
+      "insert_index": 231
+    }
+  ]
+}

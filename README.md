@@ -7,8 +7,11 @@
 - Angular
 
 ## Instruction:
+- Install pytorch with cuda:
+    ```pip install torch -f https://download.pytorch.org/whl/torch_stable.html```
+    
 - In server:
-    ```set FLASK_APP=server```
+    ```set FLASK_APP=server```\n
     ```flask run```
 
 - In client:
