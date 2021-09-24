@@ -1,6 +1,6 @@
 import json
 import pickle
-
+import os
 
 class FileManager:
     def __init__(self, encoding='utf-8-sig'):
@@ -12,7 +12,7 @@ class FileManager:
         with open(file, 'a', encoding=self.encoding) as f:
             f.write(f'{content}\n')
 
-    def append_lines(self, file, lines):
+    def write_lines(self, file, lines):
         with open(file, 'w', encoding=self.encoding) as f:
             for line in lines:
                 f.write(f'{line}\n')
@@ -65,6 +65,14 @@ class FileManager:
     def pickle_load(file):
         with open(file, 'rb') as f:
             return pickle.load(f)
+
+    # *** listdir ***
+    def listdir_and_sort(self, dir):
+        def get_file_number(file): # file = src_1.txt
+            return int(file.split('.')[0].split('_')[1])
+
+        file_list = os.listdir(dir)
+        return sorted(file_list, key=lambda file: get_file_number(file))
     
 
 file_manager = FileManager()

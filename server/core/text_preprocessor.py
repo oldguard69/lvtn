@@ -43,4 +43,4 @@ class TextPreprocessor:
             # there are no invalid chars, return original text
             return text
 
-processor = TextPreprocessor()
+text_cleaner = TextPreprocessor()
