@@ -67,12 +67,13 @@ class FileManager:
             return pickle.load(f)
 
     # *** listdir ***
-    def listdir_and_sort(self, dir):
+    def sort_files(self, files):
         def get_file_number(file): # file = src_1.txt
             return int(file.split('.')[0].split('_')[1])
+        return sorted(files, key=lambda file: get_file_number(file))
 
-        file_list = os.listdir(dir)
-        return sorted(file_list, key=lambda file: get_file_number(file))
+    def listdir_and_sort(self, dir):
+        return self.sort_files(os.listdir(dir))
     
 
 file_manager = FileManager()

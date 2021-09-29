@@ -3,7 +3,7 @@ import numpy as np
 
 from util.file_manager import file_manager
 from directory import all_doc_dir, raw_susp_dir, src_dir, susp_stats_dir, susp_dir
-from util.plagiarism_doc_maker import PlagiarisedDocMaker
+from util.plagiarised_doc_maker import PlagiarisedDocMaker
 
 
 # move data from all_doc_corpus to src and raw_susp corpus
@@ -18,7 +18,7 @@ file_list = file_manager.listdir_and_sort(all_doc_dir)
 np.random.seed(14)
 np.random.shuffle(file_list)
 copy_from_all_doc_corpus(file_list[:num_of_src_file], src_dir, 'src')
-copy_from_all_doc_corpus(file_list[num_of_src_file:num_of_src_file+50], raw_susp_dir, 'susp')
+copy_from_all_doc_corpus(file_list[num_of_src_file:], raw_susp_dir, 'susp')
 
 
 # create suspicious corpus

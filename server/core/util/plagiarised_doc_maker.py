@@ -1,6 +1,8 @@
 import os
 import random
 from util.file_manager import file_manager
+import random
+
 
 class PlagiarisedDocMaker:
     def __init__(self, raw_susp_dir, susp_dir, susp_stats_dir, src_dir, max_src_files):
@@ -66,17 +68,19 @@ class PlagiarisedDocMaker:
         file_manager.write_lines(os.path.join(self.susp_dir, raw_susp_file), susp_sentences)
 
     def make_plagiarised_corpus(self):
+        total_plagiarism_cases = 0
+        total_no_plagiarism_cases = 0
+        random.seed(14)
         for raw_susp_file in file_manager.listdir_and_sort(self.raw_susp_dir):
-            self.create_plagiarised_file(raw_susp_file)
-
-
-# src files folder
-src_dir = '/content/drive/MyDrive/data/test_data/src'
-
-raw_susp_dir = '/content/drive/MyDrive/data/test_data/raw_susp'
-susp_dir = '/content/drive/MyDrive/data/test_data/susp'
-susp_stats_dir = '/content/drive/MyDrive/data/test_data/susp_stats'
-
-max_src_files = 5
-
-maker = PlagiarisedDocMaker(raw_susp_dir, susp_dir, susp_stats_dir, src_dir, max_src_files)
+            is_plg = random.choices([0, 1], [3, 7], k=1)
+            if is_plg == [0]:
+                file_manager.write_json(
+                    os.path.join(self.susp_stats_dir, f'{raw_susp_file[:-4]}.json'), 
+                    {'type': 'no_plagiarism', 'file_stat': []}
+                )
+                total_no_plagiarism_cases += 1
+            else:
+                self.create_plagiarised_file(raw_susp_file)
+                total_plagiarism_cases += 1
+        print(f'Total plagiarism cases: {total_plagiarism_cases}')
+        print(f'Total no plagiarism cases: {total_no_plagiarism_cases}')

@@ -1,10 +1,17 @@
 import time
 import os.path as osjoin
+import os
 import numpy as np
 
 from util.sentence_transformer import sentence_transfomer
 from util.file_manager import file_manager
 from directory import susp_dir, susp_embeddings_dir, susp_embeddings_for_classification, root_dir
+
+
+def list_doc_in_susp_dir(dir):
+    files = os.listdir(dir)
+    files = [file for file in files if file[-3:] == 'txt']
+    return file_manager.sort_files(files)
 
 
 all_files = file_manager.listdir_and_sort(susp_dir)
