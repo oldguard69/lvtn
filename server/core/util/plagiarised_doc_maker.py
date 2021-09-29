@@ -71,12 +71,20 @@ class PlagiarisedDocMaker:
         total_plagiarism_cases = 0
         total_no_plagiarism_cases = 0
         random.seed(14)
+        
         for raw_susp_file in file_manager.listdir_and_sort(self.raw_susp_dir):
             is_plg = random.choices([0, 1], [3, 7], k=1)
             if is_plg == [0]:
                 file_manager.write_json(
                     os.path.join(self.susp_stats_dir, f'{raw_susp_file[:-4]}.json'), 
                     {'type': 'no_plagiarism', 'file_stat': []}
+                )
+                text = file_manager.read_whole_file(
+                        os.path.join(self.raw_susp_dir, raw_susp_file)
+                    )
+                file_manager.write_whole_file(
+                    os.path.join(self.susp_dir, raw_susp_file),
+                    text
                 )
                 total_no_plagiarism_cases += 1
             else:

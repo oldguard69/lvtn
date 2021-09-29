@@ -1,6 +1,8 @@
 import json
 import pickle
 import os
+import h5py
+
 
 class FileManager:
     def __init__(self, encoding='utf-8-sig'):
@@ -58,11 +60,11 @@ class FileManager:
             return json.load(f)
 
     # *** pickcle file ***
-    def pickle_dump(object, file):
+    def pickle_dump(self, object, file):
         with open(file, 'wb') as f:
             pickle.dump(object, f)
 
-    def pickle_load(file):
+    def pickle_load(self, file):
         with open(file, 'rb') as f:
             return pickle.load(f)
 
@@ -74,6 +76,20 @@ class FileManager:
 
     def listdir_and_sort(self, dir):
         return self.sort_files(os.listdir(dir))
+
+    # *** hdf5 ***
+    def hdf5_write(self, file, key, data):
+        with h5py.File(file, 'a') as f:
+            f.create_dataset(key, data=data)
+
+    def hdf5_read(self, file, key):
+        with h5py.File(file, 'r') as f:
+            return f[key]
     
+    def hdf5_get_keys(self, file):
+        with h5py.File(file, 'r') as f:
+            return list(f.keys())
+
+
 
 file_manager = FileManager()
