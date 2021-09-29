@@ -1,6 +1,6 @@
 import os
 import random
-from file_manager import file_manager
+from util.file_manager import file_manager
 
 class PlagiarisedDocMaker:
     def __init__(self, raw_susp_dir, susp_dir, susp_stats_dir, src_dir, max_src_files):

@@ -1,8 +1,8 @@
 import os
 from flask import Flask, jsonify
 
-from core.file_manager import file_manager
-from functions.helpers import get_response_for_request_file_sentences
+from core.util.file_manager import file_manager
+from core.controllers.helpers import get_response_for_request_file_sentences
 
 
 susp_corpus_dir = './corpus/susp'

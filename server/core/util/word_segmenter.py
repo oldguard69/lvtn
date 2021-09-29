@@ -1,3 +1,4 @@
+import os
 from vncorenlp import VnCoreNLP
 
 class WordSegmenter:
@@ -16,14 +17,12 @@ class WordSegmenter:
             * work for single sentence only *
             * return: string
         '''
-        return ' '.join(self.tokenize(single_sentence)[0])
+        return ' '.join([' '.join(i) for i in word_segmenter.tokenize(single_sentence)])
 
 
+model_dir = os.path.abspath('C:/Users/jeanLannes/workstation/lvtn/server/core/model/vncorenlp/VnCoreNLP-1.1.1.jar')
 vncorenlp_model =  VnCoreNLP(
-    '../model/vncorenlp1/VnCoreNLP-1.1.1.jar', annotators="wseg", max_heap_size='-Xmx500m'
+    model_dir, annotators="wseg", max_heap_size='-Xmx500m'
 )
 
 word_segmenter = WordSegmenter(vncorenlp_model)
-
-t = 'Nghe không biết bao nhiêu lần rồi .. giọng của ca sĩ Khánh Hà lại thêm hoà âm của Asia thật sự là một tuyệt phẩm, càng nghe càng thấy da diết đến lạ'
-print(word_segmenter.segment_word(t))

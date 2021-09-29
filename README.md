@@ -11,7 +11,7 @@
     ```pip install torch -f https://download.pytorch.org/whl/torch_stable.html```
     
 - In server:
-    ```set FLASK_APP=server```\n
+    ```set FLASK_APP=server```
     ```flask run```
 
 - In client:

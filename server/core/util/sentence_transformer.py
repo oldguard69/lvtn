@@ -3,12 +3,12 @@ import os
 import numpy as np
 from transformers import AutoModel, AutoTokenizer
 
-from file_manager import file_manager
-from text_preprocessor import text_cleaner
-from word_segmenter import word_segmenter
+from util.file_manager import file_manager
+from util.text_cleaner import text_cleaner
+from util.word_segmenter import word_segmenter
 
 
-class SentenceEmbedder:
+class SentenceTransformer:
     def __init__(self, phobert, tokenizer):
         self.phobert = phobert
         self.tokenizer = tokenizer
@@ -45,17 +45,12 @@ class SentenceEmbedder:
         '''
         input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
         sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, 1)
-
         sum_mask = input_mask_expanded.sum(1)
-
         sum_mask = torch.clamp(sum_mask, min=1e-9)
-
         mean_pooled = sum_embeddings / sum_mask
         return mean_pooled
 
-
     def encode(self, word_segmented_sentences, batch_size=128, seq_len=256):
-        # encode the whole document
         # compute sentence embedding for each batch_size sentences at a time
         all_embeddings = []
         for start_index in range(0, len(word_segmented_sentences), batch_size):
@@ -73,7 +68,6 @@ class SentenceEmbedder:
         # convert from tensor to numpy array
         all_embeddings = np.asarray([emb.numpy() for emb in all_embeddings])
         return all_embeddings
-
     
     def encode_whole_doc(self, word_segmented_sentences, seq_len=256):
         # encode the whole document
@@ -114,6 +108,8 @@ if device.type == "cuda":
 print(device)
 
 
-local_model_directory = '../model/phobert_using_transformer'
+local_model_directory = 'C:/Users/jeanLannes/workstation/lvtn/server/core/model/phobert_using_transformer'
 tokenizer = AutoTokenizer.from_pretrained(local_model_directory)
 phobert = AutoModel.from_pretrained(local_model_directory)
+
+sentence_transfomer = SentenceTransformer(phobert, tokenizer)

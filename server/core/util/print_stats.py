@@ -23,16 +23,16 @@ def print_stats(stats, column_size=25):
         print('='*width)
 
 
-stats = [{'insert_index': 28,
-  'paragraph_len': 48,
-  'src_file': 'src_1.txt',
-  'start_index': 23},
- {'insert_index': 126,
-  'paragraph_len': 17,
-  'src_file': 'src_4.txt',
-  'start_index': 135},
- {'insert_index': 173,
-  'paragraph_len': 8,
-  'src_file': 'src_0.txt',
-  'start_index': 77}]
-print_stats(stats)
+# stats = [{'insert_index': 28,
+#   'paragraph_len': 48,
+#   'src_file': 'src_1.txt',
+#   'start_index': 23},
+#  {'insert_index': 126,
+#   'paragraph_len': 17,
+#   'src_file': 'src_4.txt',
+#   'start_index': 135},
+#  {'insert_index': 173,
+#   'paragraph_len': 8,
+#   'src_file': 'src_0.txt',
+#   'start_index': 77}]
+# print_stats(stats)

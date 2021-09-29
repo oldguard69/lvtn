@@ -5,8 +5,8 @@ import random
 import time
 import textract
 
-from .file_manager import file_manager
-from .text_preprocessor import processor
+from util.file_manager import file_manager
+from util.text_cleaner import processor
 
 
 class WebCrawler:
