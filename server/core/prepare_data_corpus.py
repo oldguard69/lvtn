@@ -40,11 +40,11 @@ def copy_from_all_doc_corpus(file_list, target_dir, prefix_name, all_doc_dir=all
 # maker.make_plagiarised_corpus()
 
 
-# randomly choose 210 susp files to modify plagiarised paragraph
+# randomly choose 100 susp files to modify plagiarised paragraph
 plg_files = file_manager.read_line_by_line(
     osjoin(stats_about_file_dir, 'plg_files_from_raw_susp.txt')
 )
 np.random.shuffle(plg_files)
 file_manager.write_lines(
-    osjoin(stats_about_file_dir, 'obfuscation_plg_cases.txt'), plg_files[:210]
+    osjoin(stats_about_file_dir, 'obfuscation_plg_cases.txt'), plg_files[:100]
 )

@@ -7,6 +7,10 @@ from cosine_similarity import calculate_cosine_similarity
 # Loc ra cac cau dao van
 # Sau khi so sanh het voi tat cac cau trong src, dung df co duoc de tim doan dao van
 
+SRC_FILE = 'src_file'
+SRC_INDEX = 'src_index'
+SUSP_INDEX = 'susp_index'
+PARAGRAPH_LENGTH = 'paragraph_length'
 
 class PlagiarisedParagraphFinder:
     def __init__(self, classifier) -> None:
@@ -170,3 +174,5 @@ class PlagiarisedParagraphFinder:
                     result_stats = append_current_stats(
                         result_stats, current_stats)
         return result_stats
+
+    

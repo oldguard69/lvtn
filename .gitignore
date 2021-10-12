@@ -5,3 +5,6 @@ drive-download*
 env
 
 model
+
+test/
+test_find_plg/
