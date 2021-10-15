@@ -2,7 +2,7 @@ from pandas import DataFrame
 import numpy as np
 from collections import defaultdict
 
-from cosine_similarity import calculate_cosine_similarity
+from util.cosine_similarity import calculate_cosine_similarity
 
 SRC_FILE = 'src_file'
 SRC_INDEX = 'src_index'
@@ -110,7 +110,7 @@ def find_plagirised_paragraph_with_df_of_a_same_source(df, src_file):
     return final_res
 
 
-def find_all_plagiarised_paragraph(df):
+def find_plagiarised_paragraph(df):
     res = []
     for src in get_potential_src(df):
         res.extend(find_plagirised_paragraph_with_df_of_a_same_source(
@@ -173,6 +173,30 @@ def number_of_correct_paragraph_in_a_file(p_pred, p_true):
                 if is_correct:
                     total_correct_paragraph += 1
     return total_correct_paragraph
+
+def print_stats(stats, column_size=25):
+    def padding_space(string,  column_size=25):
+        string = str(string)
+        t = column_size - len(string)
+        r = int(t // 2)
+        if t % 2:
+            s = ' '*r + string + ' '*(r+1)
+        else:
+            s = ' '*r + string + ' '*r   
+        return s
+
+    width = column_size * 4 + 5
+    print('='*width)
+    for i in ['src_file', 'start_index', 'insert_index', 'paragraph_len']:
+        print('|' + padding_space(i, column_size), end='')
+    print('|')
+    print('='*width)
+
+    for item in stats:
+        for key in ['src_file', 'start_index', 'insert_index', 'paragraph_len']:
+            print("|" + padding_space(item[key], column_size), end='')
+        print('|')
+        print('='*width)
 
 
 # class PlagiarisedParagraphFinder:

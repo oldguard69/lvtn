@@ -60,11 +60,6 @@ for embs_file in sorted(all_embs_files, key=lambda x: int(x.split('_')[1])):
 conn.close()
 
 
-
-
-
-
-
 def stream_source_embedding(number_of_src_per_chunk):
     with conn.cursor() as cur:
         source_ids = cur.execute(Q.select_all_source_docs_id)
@@ -82,26 +77,3 @@ def stream_source_embedding(number_of_src_per_chunk):
             'index': r[1],
             'embedding': np.array(r[2])
         } for r in records]
-        
-
-# def get_src_from_db(page, offset):
-#     with conn.cursor() as cur:
-#         cur.execute("SELECT filename, index, embedding FROM src;")
-#         records = cur.fetchall()
-#     return [{
-#         'filename': r[0],
-#         'index': r[1],
-#         'embedding': np.array(r[2])
-#     } for r in records]
-
-
-# db = sorted(db, key=lambda x: x['index'])
-# records = get_src_from_db(0, 0)
-# records = sorted(records, key=lambda x: x['index'])
-
-
-# for i, j in zip(db, records):
-#     print('{}: {} ---- {}: {} ---- {}'.format(
-#         i['filename'], i['index'], j['filename'], j['index'],
-#         calculate_cosine_similarity(i['embedding'], j['embedding'])
-#     ))

@@ -1,0 +1,26 @@
+[
+  {
+    "src_file": "src_1683.txt",
+    "src_index": 46,
+    "susp_index": 6,
+    "paragraph_length": 17
+  },
+  {
+    "src_file": "src_385.txt",
+    "src_index": 37,
+    "susp_index": 31,
+    "paragraph_length": 11
+  },
+  {
+    "src_file": "src_1879.txt",
+    "src_index": 28,
+    "susp_index": 61,
+    "paragraph_length": 10
+  },
+  {
+    "src_file": "src_821.txt",
+    "src_index": 70,
+    "susp_index": 79,
+    "paragraph_length": 11
+  }
+]

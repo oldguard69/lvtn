@@ -77,10 +77,10 @@ select_embeddings = """
         sentence_index,
         embedding
     FROM
-        source_embeddings se
+        source_embeddings
     JOIN source_docs
     ON source_docs.id = source_embeddings.source_id
     WHERE 
-        source_doc.id IN %s
+        source_docs.id IN %s
     ;
 """
