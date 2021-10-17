@@ -10,3 +10,5 @@ test/
 test_find_plg/
 
 embeddings
+
+.env

@@ -1,14 +1,21 @@
+from datetime import datetime
 from time import sleep
 import os
 
+from dotenv import load_dotenv, find_dotenv
 from flask import Flask, flash, request, jsonify
 from werkzeug.utils import secure_filename
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
 
 from core.util.file_manager import file_manager
 from core.controllers.helpers import (
     get_response_for_request_file_sentences, return_response, allowed_file
 )
 
+load_dotenv(find_dotenv())
 SUSP_CORPUS_DIR = './corpus/susp'
 SRC_CORPUS_DIR = './corpus/src'
 PRODUCTION_SUSP_DIR = './corpus/production_susp'
@@ -17,7 +24,32 @@ PRODUCTION_SUSP_STATS_DIR = './corpus/production_susp_stats'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = PRODUCTION_SUSP_DIR
-app.secret_key = "super secret key"
+app.secret_key = os.getenv('secret_key')
+
+app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+
+# If true this will only allow the cookies that contain your JWTs to be sent
+# over https. In production, this should always be set to True
+app.config["JWT_COOKIE_SECURE"] = False
+
+# Change this in your code!
+app.config["JWT_SECRET_KEY"] = os.getenv('secret_key')
+jwt = JWTManager(app)
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    access_token = create_access_token(
+        identity="example_user",
+        expires_delta=datetime.timedelta(hours=300))
+    return jsonify(access_token=access_token)
+
+@app.route("/only_headers")
+@jwt_required(locations=["headers"])
+def only_headers():
+    return jsonify(foo="baz")
+
+
 
 @app.route('/source-doc/<filename>')
 def source_file_senteces(filename):
