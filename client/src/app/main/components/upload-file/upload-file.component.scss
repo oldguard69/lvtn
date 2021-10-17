@@ -1,0 +1,12 @@
+mat-card {
+    width: 30%;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    input {
+        width: 200px;
+    }
+}

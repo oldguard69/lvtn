@@ -1,0 +1,15 @@
+mat-card {
+    width: 30%;
+    margin: 50px auto;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+
+        mat-form-field {
+            width: 100%;
+        }
+    }
+}

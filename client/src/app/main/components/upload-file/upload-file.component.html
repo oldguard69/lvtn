@@ -1,0 +1,15 @@
+<mat-card>
+  <h2>Tải file để kiểm tra</h2>
+  <div class="form-group">
+    <!-- <label for="file">Choose File</label> -->
+    <input type="file" id="file" (change)="handleFileInput($event.target)" />
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    (click)="uploadFile()"
+  >
+    Upload file
+  </button>
+</mat-card>

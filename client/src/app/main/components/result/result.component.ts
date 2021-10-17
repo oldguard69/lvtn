@@ -59,13 +59,15 @@ export class ResultComponent implements OnInit {
   }
 
   load_prev_doc() {
-    this.doc_index - 1 < 0 ? this.doc_index = this.source_doc_list.length - 1 : this.doc_index--;
+    this.doc_index - 1 < 0
+      ? (this.doc_index = this.source_doc_list.length - 1)
+      : this.doc_index--;
     this.moveSourceFile();
   }
 
   load_next_doc() {
     this.doc_index = (this.doc_index + 1) % this.source_doc_list.length;
-    this.moveSourceFile()
+    this.moveSourceFile();
   }
 
   private moveSourceFile() {

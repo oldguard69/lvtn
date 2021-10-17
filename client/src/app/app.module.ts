@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainEffects } from './main/state/effects';
 import { mainReducer } from './main/state/reducer';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { mainReducer } from './main/state/reducer';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    SharedModule,
     StoreModule.forRoot({
       main: mainReducer
     }, {}),

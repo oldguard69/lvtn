@@ -1,0 +1,16 @@
+<mat-card>
+    <form [formGroup]="loginForm" class="form-wrapper" (ngSubmit)="handleSubmit()">
+        <h2>Đăng nhập</h2>
+        <mat-form-field appearance="legacy">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="email">
+            <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+        <mat-form-field appearance="legacy">
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="password">
+            <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Đăng nhập</button>
+    </form>
+</mat-card>

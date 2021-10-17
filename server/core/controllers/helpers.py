@@ -1,6 +1,10 @@
 import os
+
 from flask import jsonify
+
 from core.util.file_manager import file_manager
+
+ALLOWED_EXTENSIONS = {'txt', 'pdf'}
 
 
 def get_response_for_request_file_sentences(corpus_dir, filename):
@@ -12,7 +16,12 @@ def get_response_for_request_file_sentences(corpus_dir, filename):
     return response
 
 
-from core.util.word_segmenter import word_segmenter
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-t = 'Nghe không biết bao nhiêu lần rồi .. giọng của ca sĩ Khánh Hà lại thêm hoà âm của Asia thật sự là một tuyệt phẩm, càng nghe càng thấy da diết đến lạ'
-print(word_segmenter.segment_word(t))
+
+def return_response(data):
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response

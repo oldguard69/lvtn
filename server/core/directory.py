@@ -12,9 +12,12 @@ susp_dir = osjoin(root_dir, 'susp')
 susp_stats_dir = osjoin(root_dir, 'susp_stats')
 predict_susp_stats_dir = osjoin(root_dir, 'predicted_susp_stats')
 
-# src_embeddings_dir = osjoin(root_dir, 'embeddings', 'src')
-# susp_embeddings_dir = osjoin(root_dir, 'embeddings', 'susp')
-# susp_embeddings_for_classification = osjoin(root_dir, 'embeddings', 'susp_for_classification')
+embeddings_dir = 'embeddings'
+src_embeddings_dir = osjoin(embeddings_dir, 'src')
+susp_embeddings_dir = osjoin(embeddings_dir, 'susp')
+susp_embeddings_for_classification = osjoin(
+    embeddings_dir, 'susp_for_classification'
+)
 
-production_susp = osjoin(root_dir, 'production_susp')
-production_susp_stats = osjoin(root_dir, 'production_susp_stats')
+production_susp_dir = osjoin(root_dir, 'production_susp')
+production_susp_stats_dir = osjoin(root_dir, 'production_susp_stats')

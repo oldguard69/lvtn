@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ResultComponent } from './components/result/result.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 const routes: Routes = [
-  {path: '', component: ResultComponent}
+  {path: 'upload-file', component: UploadFileComponent},
+  {path: 'result', component: ResultComponent}
 ];
 
 @NgModule({

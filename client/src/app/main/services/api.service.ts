@@ -49,4 +49,15 @@ export class ApiService {
   range(size: number, startAt: number = 0): ReadonlyArray<number> {
     return [...Array(size).keys()].map((i) => i + startAt);
   }
+
+  uploadFile(fileToUpload: File) {
+    const endpoint = 'your-destination-url';
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    console.log(formData);
+    return this.http
+      .post(`${this.api_url}/upload-file`, formData).pipe(
+        map(() => { return true; }),
+      )
+  }
 }

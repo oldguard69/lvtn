@@ -1,7 +1,6 @@
 import json
 import pickle
 import os
-import h5py
 from typing import List
 
 
@@ -92,18 +91,6 @@ class FileManager:
         """List all files in dir and sort them by their name"""
         return self.sort_files(os.listdir(dir))
 
-    # *** hdf5 ***
-    # def hdf5_write(self, file, key, data):
-    #     with h5py.File(file, 'a') as f:
-    #         f.create_dataset(key, data=data)
-
-    # def hdf5_read(self, file, key):
-    #     with h5py.File(file, 'r') as f:
-    #         return f[key]
-    
-    # def hdf5_get_keys(self, file):
-    #     with h5py.File(file, 'r') as f:
-    #         return list(f.keys())
 
 
 file_manager = FileManager()
