@@ -12,3 +12,5 @@ test_find_plg/
 embeddings
 
 .env
+
+__pycache__

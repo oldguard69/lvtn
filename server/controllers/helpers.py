@@ -2,7 +2,7 @@ import os
 
 from flask import jsonify
 
-from core.util.file_manager import file_manager
+from util.file_manager import file_manager
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf'}
 

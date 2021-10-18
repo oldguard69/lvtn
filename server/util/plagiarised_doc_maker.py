@@ -2,7 +2,7 @@ from os.path import join as osjoin
 import random
 from util.file_manager import file_manager
 import numpy as np
-from directory import stats_about_file_dir
+from core.directory import stats_about_file_dir
 
 
 class PlagiarisedDocMaker:

@@ -56,14 +56,14 @@ def split_susp_file():
 
 # split_susp_file()
 
-# count_susp_type(osjoin(stats_about_file_dir, 'susp_for_train_model.txt'))
-# count_susp_type(osjoin(stats_about_file_dir, 'susp_for_find_plg_paragraph.txt'))
+count_susp_type(osjoin(stats_about_file_dir, 'susp_for_train_model.txt'))
+count_susp_type(osjoin(stats_about_file_dir, 'susp_for_find_plg_paragraph.txt'))
 
-current = set()
-for susp in file_manager.read_line_by_line(
-    osjoin(stats_about_file_dir, 'susp_for_find_plg_paragraph.txt')):
+# current = set()
+# for susp in file_manager.read_line_by_line(
+#     osjoin(stats_about_file_dir, 'susp_for_find_plg_paragraph.txt')):
 
-    stats = file_manager.read_json(osjoin(susp_stats_dir, f'{susp[:-4]}.json'))
-    if stats['type'] == 'obfuscation':
-        print(susp)
+#     stats = file_manager.read_json(osjoin(susp_stats_dir, f'{susp[:-4]}.json'))
+#     if stats['type'] == 'obfuscation':
+#         print(susp)
 

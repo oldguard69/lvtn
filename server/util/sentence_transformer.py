@@ -108,7 +108,7 @@ if device.type == "cuda":
 print(device)
 
 
-local_model_directory = 'C:/Users/jeanLannes/workstation/lvtn/server/core/model/phobert_using_transformer'
+local_model_directory = 'C:/Users/jeanLannes/workstation/lvtn/server/util/model/phobert_using_transformer'
 tokenizer = AutoTokenizer.from_pretrained(local_model_directory)
 phobert = AutoModel.from_pretrained(local_model_directory)
 

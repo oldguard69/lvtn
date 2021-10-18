@@ -10,8 +10,8 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
 
-from core.util.file_manager import file_manager
-from core.controllers.helpers import (
+from util.file_manager import file_manager
+from controllers.helpers import (
     get_response_for_request_file_sentences, return_response, allowed_file
 )
 
