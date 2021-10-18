@@ -1,6 +1,7 @@
 import os
 
 from flask import jsonify
+import bcrypt
 
 from util.file_manager import file_manager
 
@@ -25,3 +26,24 @@ def return_response(data):
     response = jsonify(data)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
+
+
+def get_hashed_password(plain_text_password):
+    # Hash a password for the first time
+    #   (Using bcrypt, the salt is saved into the hash itself)
+    plain_text_password = plain_text_password.encode()
+    return bcrypt.hashpw(plain_text_password, bcrypt.gensalt()).decode()
+
+def check_password(plain_text_password, hashed_password):
+    # Check hashed password. Using bcrypt, the salt is saved into the hash itself
+    plain_text_password = plain_text_password.encode()
+    hashed_password = hashed_password.encode()
+    return bcrypt.checkpw(plain_text_password, hashed_password)
+
+def check_post_field(fields, data: dict):
+    messages = []
+    for f in fields:
+        if f not in data or data[f] == '':
+            messages.append(f'{f} is required.')
+    return messages

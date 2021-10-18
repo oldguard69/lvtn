@@ -1,6 +1,6 @@
 users_table = """
     CREATE TABLE users (
-        id int PRIMARY KEY,
+        id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         email VARCHAR(50),
         password VARCHAR(200),
         fullname VARCHAR(200)
@@ -38,6 +38,26 @@ source_embeddings_table = """
     );
 """
 
+###################################### USERS ######################################
+insert_a_user = """
+    INSERT INTO
+        users (email, password, fullname)
+    VALUES
+        (%s, %s, %s);
+"""
+
+select_a_user = """
+    SELECT
+        id, email, password, fullname
+    FROM
+        users
+    WHERE
+        email = %s;
+"""
+####################################################################################
+
+
+###################################### SOURCE DOCS ######################################
 insert_a_source_doc = """
     INSERT INTO 
         source_docs (filename, num_of_sentences)
@@ -47,20 +67,12 @@ insert_a_source_doc = """
         id;
 """
 
+
 insert_embeddings_of_a_source_file = """
     INSERT INTO
         source_embeddings (source_id, sentence_index, embedding)
     VALUES
         %s;
-"""
-
-select_user = """
-    SELECT
-        id, email, password, fullname
-    FROM
-        users
-    WHERE
-        email = %s;
 """
 
 # dùng để lấy tất cả src embeddings
@@ -70,6 +82,7 @@ select_all_source_docs_id = """
     FROM
         source_docs;
 """
+
 
 select_embeddings = """
     SELECT
@@ -84,3 +97,21 @@ select_embeddings = """
         source_docs.id IN %s
     ;
 """
+####################################################################################
+
+
+###################################### SUSPICIOUS DOCS ######################################
+insert_a_susp_doc = """
+    INSERT INTO
+        suspicious_docs (id, filename, num_of_sentences, is_plg, num_of_plg_sentences, plg_stats_name, user_id)
+    VALUES
+        (%s, %s, %s, %s, %s, %s);
+"""
+
+select_a_susp_doc = """
+    SELECT
+        filename, num_of_sentences, is_plg, num_of_plg_sentences, plg_stats_name, user_id
+    WHERE
+        id = %s & user_id = %s;
+"""
+####################################################################################

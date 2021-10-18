@@ -1,19 +1,18 @@
-from datetime import datetime
+import datetime
 from time import sleep
 import os
 
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, flash, request, jsonify
 from werkzeug.utils import secure_filename
-from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
-
 
 from util.file_manager import file_manager
 from controllers.helpers import (
     get_response_for_request_file_sentences, return_response, allowed_file
 )
+from controllers.authentication import (login_controller, register_controller)
 
 load_dotenv(find_dotenv())
 SUSP_CORPUS_DIR = './corpus/susp'
@@ -37,12 +36,15 @@ app.config["JWT_SECRET_KEY"] = os.getenv('secret_key')
 jwt = JWTManager(app)
 
 
+@app.route("/register", methods=["POST"])
+def register():
+    return register_controller(request)
+
+
 @app.route("/login", methods=["POST"])
 def login():
-    access_token = create_access_token(
-        identity="example_user",
-        expires_delta=datetime.timedelta(hours=300))
-    return jsonify(access_token=access_token)
+    return login_controller(request)
+
 
 @app.route("/only_headers")
 @jwt_required(locations=["headers"])
@@ -89,3 +91,5 @@ def upload_file():
         sleep(10 * 60)
         return return_response({'msg': 'File has been uploaded'})
 
+if __name__ == '__main__':
+    app.run(debug=True)
