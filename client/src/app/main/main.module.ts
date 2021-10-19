@@ -11,6 +11,8 @@ import { TextBoxComponent } from './components/text-box/text-box.component';
 import { ResultComponent } from './components/result/result.component';
 import { RawScrollComponent } from './components/raw-scroll/raw-scroll.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { IndexComponent } from './components/index/index.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
     ResultComponent,
     RawScrollComponent,
     UploadFileComponent,
+    IndexComponent,
   ],
 
   imports: [
@@ -27,7 +30,8 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    SharedModule
   ],
 })
 export class MainModule {}

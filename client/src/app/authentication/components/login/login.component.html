@@ -1,16 +1,28 @@
 <mat-card>
-    <form [formGroup]="loginForm" class="form-wrapper" (ngSubmit)="handleSubmit()">
-        <h2>Đăng nhập</h2>
-        <mat-form-field appearance="legacy">
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="email">
-            <!-- <mat-hint>Hint</mat-hint> -->
-        </mat-form-field>
-        <mat-form-field appearance="legacy">
-            <mat-label>Mật khẩu</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="password">
-            <!-- <mat-hint>Hint</mat-hint> -->
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Đăng nhập</button>
-    </form>
+  <form
+    [formGroup]="loginForm"
+    class="form-wrapper"
+    (ngSubmit)="handleSubmit()"
+  >
+    <h2>Đăng nhập</h2>
+    <app-messages [messages]="messages$ | async"></app-messages>
+    <mat-form-field appearance="legacy">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="email" />
+      <mat-error *ngIf="email.hasError('email')">Email không hợp lệ</mat-error>
+      <mat-error *ngIf="email.hasError('required')"
+        >Vui lòng điền email</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="legacy">
+      <mat-label>Mật khẩu</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="password" />
+      <mat-error *ngIf="password.hasError('required')">Vui lòng điền mật khẩu</mat-error>
+    </mat-form-field>
+    
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Đăng nhập</button>
+      <a mat-raised-button [routerLink]="['/register']">Đăng ký</a>
+    </div>
+  </form>
 </mat-card>

@@ -22,10 +22,10 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def return_response(data):
+def return_response(data, status_code=200):
     response = jsonify(data)
     response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
+    return response, status_code
 
 
 

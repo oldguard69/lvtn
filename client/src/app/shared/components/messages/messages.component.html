@@ -1,0 +1,9 @@
+<div *ngIf="messages">
+    <p
+      *ngFor="let msg of messages;"
+      [ngClass]="[msg.type]"
+    >
+      {{ msg.content }}
+    </p>
+  </div>
+  

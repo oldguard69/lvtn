@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { loadAuthTokenFromLocalStorage } from './authentication/state/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
+
+  ngOnInit() {
+    this.store.dispatch(loadAuthTokenFromLocalStorage());
+  }
+
+  constructor(private store: Store) {}
 }

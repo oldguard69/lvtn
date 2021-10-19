@@ -1,7 +1,7 @@
-import datetime
 from time import sleep
 import os
 
+from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, flash, request, jsonify
 from werkzeug.utils import secure_filename
@@ -24,8 +24,8 @@ PRODUCTION_SUSP_STATS_DIR = './corpus/production_susp_stats'
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = PRODUCTION_SUSP_DIR
 app.secret_key = os.getenv('secret_key')
-
 app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+CORS(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True

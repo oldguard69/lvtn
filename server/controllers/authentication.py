@@ -14,10 +14,10 @@ def register_controller(request):
     data = request.get_json()
     required_error_msg = check_post_field([EMAIL, PASSWORD, FULLNAME], data)
     if len(required_error_msg):
-        return jsonify({'msg': required_error_msg})
+        return jsonify({'msg': required_error_msg}), 400
 
     if is_user_exist(data[EMAIL]):
-        return jsonify({'msg': ['{} has been used.'.format(data[EMAIL])]})
+        return jsonify({'msg': ['{} has been used.'.format(data[EMAIL])]}), 400
     
     hashed_password = get_hashed_password(data[PASSWORD])
     insert_a_user(data[EMAIL], hashed_password, data[FULLNAME])

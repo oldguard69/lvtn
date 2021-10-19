@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { IndexComponent } from './components/index/index.component';
 import { ResultComponent } from './components/result/result.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 const routes: Routes = [
-  {path: 'upload-file', component: UploadFileComponent},
-  {path: 'result', component: ResultComponent}
+  {
+    path: '',
+    component: IndexComponent,
+    children: [
+      { path: 'upload-file', component: UploadFileComponent },
+      { path: 'result', component: ResultComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MainRoutingModule { }
+export class MainRoutingModule {}
