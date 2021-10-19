@@ -1,4 +1,3 @@
-from time import sleep
 import os
 import uuid
 
@@ -10,11 +9,11 @@ from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-from controllers.check_plagiarism import check_plagiarism
+# from controllers.check_plagiarism import check_plagiarism
 from util.file_manager import file_manager
 from controllers.helpers import return_response, allowed_file
 from controllers.authentication import (login_controller, register_controller)
-from controllers.check_plagiarism import (
+from controllers.docs import (
     get_response_for_request_file_sentences,
     get_a_suspicious_doc_controller, 
     get_suspicious_docs_controller
@@ -62,36 +61,36 @@ def suspicious_file_sentences(filename):
     return get_response_for_request_file_sentences(SUSP_CORPUS_DIR, filename)
 
 
-@app.route("/suspicious-stat/<filename>")
+@app.route("/suspicious-stats/<filename>")
 def main(filename):
-    stat = file_manager.read_json(os.path.join(SUSP_CORPUS_DIR, filename))
-    response = jsonify(stat)
+    stats = file_manager.read_json(os.path.join(PRODUCTION_SUSP_STATS_DIR, filename))
+    response = jsonify(stats)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 
-@app.route('/upload-file', methods=['POST'])
-def upload_file():
-    # check if the post request has the file part
-    if 'file' not in request.files:
-        flash('No file part')
-        return return_response({'msg': 'No file part'})
-    file = request.files['file']
+# @app.route('/upload-file', methods=['POST'])
+# def upload_file():
+#     # check if the post request has the file part
+#     if 'file' not in request.files:
+#         flash('No file part')
+#         return return_response({'msg': 'No file part'})
+#     file = request.files['file']
 
-    # If the user does not select a file, the browser submits an
-    # empty file without a filename.
-    if file.filename == '':
-        flash('No selected file')
-        return return_response({'msg': 'No selected file'})
+#     # If the user does not select a file, the browser submits an
+#     # empty file without a filename.
+#     if file.filename == '':
+#         flash('No selected file')
+#         return return_response({'msg': 'No selected file'})
 
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        unique_name = filename.split('.')[0] + '_' + str(uuid.uuid4())
+#     if file and allowed_file(file.filename):
+#         filename = secure_filename(file.filename)
+#         unique_name = filename.split('.')[0] + '_' + str(uuid.uuid4())
         
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name + '.txt'))
+#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name + '.txt'))
 
-        res = check_plagiarism(get_jwt('user_id'), filename, unique_name)
-        return return_response({'result': res}), 200
+#         res = check_plagiarism(get_jwt('user_id'), filename, unique_name)
+#         return return_response({'result': res}), 200
 
 
 @app.route('/suspicious-docs')

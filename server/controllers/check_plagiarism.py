@@ -1,13 +1,9 @@
-import os
 from os.path import join as osjoin
-import uuid
 
 from flask import jsonify
 
-from controllers.model import get_a_suspicious_docs, get_suspicious_docs
 from controllers.model import insert_a_suspicious_doc
 from util.find_plg_paragraph import get_dataframe_contain_plagiarised_sentences
-from util.file_manager import file_manager
 from util.find_plg_paragraph import find_plagiarised_paragraph
 from util.file_manager import file_manager
 from util.sentence_transformer import sentence_transfomer
@@ -15,28 +11,15 @@ from util.sentence_transformer import sentence_transfomer
 classifier = file_manager.pickle_load('./util/model/classifier.pk')
 
 
-def get_response_for_request_file_sentences(corpus_dir, filename):
-    sentences = file_manager.read_line_by_line(
-        os.path.join(corpus_dir, filename)
-        )
-    response = jsonify(sentences=sentences)
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
 
 
-def get_suspicious_docs_controller(user_id):
-    docs = get_suspicious_docs(user_id)
-    return jsonify({'result': docs}), 200
-
-
-def get_a_suspicious_doc_controller(doc_id, user_id):
-    doc = get_a_suspicious_docs(doc_id, user_id)
-    if doc:
-        return jsonify({'result': doc}), 200
-    else:
-        return jsonify(), 404
-
-
+def get_number_of_plg_sentences(stats):
+    res_set = set()
+    for s in stats:
+        plg_susp_index = [i for i in range(s['susp_index'], s['susp_index']+s['paragraph_length'])]
+        res_set = res_set.union(set(plg_susp_index))
+    return len(res_set)
+    
 
 def check_plagiarism(user_id, filename, unique_filename):
     unique_filename =  unique_filename + '.json'
@@ -77,16 +60,16 @@ def check_plagiarism(user_id, filename, unique_filename):
         print(f'{i}: {j}')
     file_manager.write_json(osjoin(susp_stats_dir, unique_filename), res)
     
-    # insert_a_suspicious_doc(
-    #     filename, num_of_sentences, is_plg, num_of_plg_sentences, plg_stats_name, user_id
-    # )
+    doc_id = insert_a_suspicious_doc(
+        filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id
+    )
 
-    return {} # return a source_doc_stats
-
-
-def get_number_of_plg_sentences(stats):
-    res_set = set()
-    for s in stats:
-        plg_susp_index = [i for i in range(s['susp_index'], s['susp_index']+s['paragraph_length'])]
-        res_set = res_set.union(set(plg_susp_index))
-    return len(res_set)
+    return {
+        'id': doc_id,
+        'filename': filename,
+        'unique_filename': unique_filename,
+        'is_plg': is_plg,
+        'num_of_sentences': num_of_sentences,
+        'num_of_plg_sentences': num_of_plg_sentences,
+        'user_id': user_id
+    }

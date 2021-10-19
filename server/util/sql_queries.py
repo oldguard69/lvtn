@@ -14,7 +14,7 @@ suspicious_docs_table = """
         num_of_sentences int,
         is_plg boolean default false,
         num_of_plg_sentences int,
-        unique_filename varchar(50),
+        unique_filename varchar(50) unique,
         user_id int,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     );
@@ -105,7 +105,9 @@ insert_a_susp_doc = """
     INSERT INTO
         suspicious_docs (filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id)
     VALUES
-        (%s, %s, %s, %s, %s, %s);
+        (%s, %s, %s, %s, %s, %s)
+    RETURNING
+        id;
 """
 
 select_suspicious_docs = """

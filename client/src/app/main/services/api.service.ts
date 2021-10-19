@@ -13,24 +13,12 @@ export class ApiService {
     @Inject('API_URL') private api_url: string
   ) {}
 
-  fetchSourceFileSentences(filename: string): Observable<string[]> {
-    return this.http
-      .get<string[]>(`${this.api_url}/source-doc-sentences/${filename}`)
-      .pipe(map((res: any) => res['sentences']));
-  }
-
-  fetchSuspiciousFileSentences(filename: string): Observable<string[]> {
-    return this.http
-      .get(`${this.api_url}/suspicious-doc-sentences/${filename}`)
-      .pipe(map((res: any) => res['sentences']));
-  }
-
   fetchStatOfSuspiciousFile(
     filename: string
   ): Observable<SuspiciousStatItem[]> {
     return this.http
       .get<SuspiciousStatItem[]>(
-        `${this.api_url}/suspicious-stat/${filename.slice(0, -4)}.json`
+        `${this.api_url}/suspicious-stats/${filename.slice(0, -4)}.json`
       )
       .pipe(
         map((res) =>
@@ -46,6 +34,18 @@ export class ApiService {
           }))
         )
       );
+  }
+
+  fetchSourceFileSentences(filename: string): Observable<string[]> {
+    return this.http
+      .get<string[]>(`${this.api_url}/source-doc-sentences/${filename}`)
+      .pipe(map((res: any) => res['sentences']));
+  }
+
+  fetchSuspiciousFileSentences(filename: string): Observable<string[]> {
+    return this.http
+      .get(`${this.api_url}/suspicious-doc-sentences/${filename}`)
+      .pipe(map((res: any) => res['sentences']));
   }
 
   range(size: number, startAt: number = 0): ReadonlyArray<number> {
