@@ -1,14 +1,19 @@
 from pandas import DataFrame
 import numpy as np
 from collections import defaultdict
+import pandas as pd
 
 from util.cosine_similarity import calculate_cosine_similarity
+from util.stream_source_embeddings import (
+    stream_source_embedding_from_database, 
+    stream_source_embeddings_from_pickle
+)
 
 SRC_FILE = 'src_file'
 SRC_INDEX = 'src_index'
 SUSP_INDEX = 'susp_index'
 PARAGRAPH_LENGTH = 'paragraph_length'
-
+df_columns = ['src_file', 'src_index', 'susp_index', 'cosine_similarity']
 
 def match_susp_embeddings_with_src_embeddings(susp_embs, src_embs) -> DataFrame:
     result = []
@@ -21,9 +26,28 @@ def match_susp_embeddings_with_src_embeddings(susp_embs, src_embs) -> DataFrame:
                 'src_file': src_row['filename'],
                 'src_index': src_row['index'],
                 'susp_index': susp_row['index'],
-                'cosine_sim': cosine
+                'cosine_similarity': cosine
             })
     return DataFrame(result)
+
+def index_of_plg_sentences(y_pred):
+    index = np.nonzero(y_pred)
+    return index[0]
+
+def get_dataframe_contain_plagiarised_sentences(susp_embeddings, classifier) -> DataFrame:
+    plg_sents_df = pd.DataFrame()
+    i = 0
+    for src_emb in stream_source_embeddings_from_pickle(5):
+        df = pd.DataFrame(
+            match_susp_embeddings_with_src_embeddings(susp_embeddings, src_emb), 
+            columns=df_columns
+        )
+        y_pred = classifier.predict(df.loc[:, ['cosine_similarity']])        
+        df = df.iloc[index_of_plg_sentences(y_pred), :]
+        plg_sents_df = plg_sents_df.append(df, ignore_index=True)
+        print(i, end=' ')
+        i += 1
+    return plg_sents_df
 
 
 def initiate_temp_stats(row):

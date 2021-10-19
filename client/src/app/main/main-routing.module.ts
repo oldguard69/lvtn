@@ -9,6 +9,7 @@ const routes: Routes = [
     path: '',
     component: IndexComponent,
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'upload-file'},
       { path: 'upload-file', component: UploadFileComponent },
       { path: 'result', component: ResultComponent },
     ],

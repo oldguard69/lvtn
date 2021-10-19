@@ -1,18 +1,25 @@
 from time import sleep
 import os
+import uuid
 
 from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, flash, request, jsonify
+from flask_jwt_extended.utils import get_jwt
 from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
+from controllers.check_plagiarism import check_plagiarism
 from util.file_manager import file_manager
-from controllers.helpers import (
-    get_response_for_request_file_sentences, return_response, allowed_file
-)
+from controllers.helpers import return_response, allowed_file
 from controllers.authentication import (login_controller, register_controller)
+from controllers.check_plagiarism import (
+    get_response_for_request_file_sentences,
+    get_a_suspicious_doc_controller, 
+    get_suspicious_docs_controller
+)
+
 
 load_dotenv(find_dotenv())
 SUSP_CORPUS_DIR = './corpus/susp'
@@ -29,9 +36,8 @@ CORS(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
-app.config["JWT_COOKIE_SECURE"] = False
+# app.config["JWT_COOKIE_SECURE"] = False
 
-# Change this in your code!
 app.config["JWT_SECRET_KEY"] = os.getenv('secret_key')
 jwt = JWTManager(app)
 
@@ -46,19 +52,12 @@ def login():
     return login_controller(request)
 
 
-@app.route("/only_headers")
-@jwt_required(locations=["headers"])
-def only_headers():
-    return jsonify(foo="baz")
-
-
-
-@app.route('/source-doc/<filename>')
+@app.route('/source-doc-sentences/<filename>')
 def source_file_senteces(filename):
     return get_response_for_request_file_sentences(SRC_CORPUS_DIR, filename)
 
 
-@app.route('/suspicious-doc/<filename>')
+@app.route('/suspicious-doc-sentences/<filename>')
 def suspicious_file_sentences(filename):
     return get_response_for_request_file_sentences(SUSP_CORPUS_DIR, filename)
 
@@ -78,7 +77,7 @@ def upload_file():
         flash('No file part')
         return return_response({'msg': 'No file part'})
     file = request.files['file']
-    
+
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     if file.filename == '':
@@ -87,9 +86,22 @@ def upload_file():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        sleep(10 * 60)
-        return return_response({'msg': 'File has been uploaded'})
+        unique_name = filename.split('.')[0] + '_' + str(uuid.uuid4())
+        
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name + '.txt'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
+        res = check_plagiarism(get_jwt('user_id'), filename, unique_name)
+        return return_response({'result': res}), 200
+
+
+@app.route('/suspicious-docs')
+@jwt_required(locations=["headers"])
+def get_suspicious_docs():
+    return get_suspicious_docs_controller(get_jwt()['user_id'])
+
+
+@app.route('/suspicious-docs/<doc_id>')
+@jwt_required(locations=["headers"])
+def get_a_suspicious_doc(doc_id):
+    return get_a_suspicious_doc_controller(doc_id, get_jwt()['user_id'])
+

@@ -15,13 +15,13 @@ export class ApiService {
 
   fetchSourceFileSentences(filename: string): Observable<string[]> {
     return this.http
-      .get<string[]>(`${this.api_url}/source-doc/${filename}`)
+      .get<string[]>(`${this.api_url}/source-doc-sentences/${filename}`)
       .pipe(map((res: any) => res['sentences']));
   }
 
   fetchSuspiciousFileSentences(filename: string): Observable<string[]> {
     return this.http
-      .get(`${this.api_url}/suspicious-doc/${filename}`)
+      .get(`${this.api_url}/suspicious-doc-sentences/${filename}`)
       .pipe(map((res: any) => res['sentences']));
   }
 
@@ -29,7 +29,9 @@ export class ApiService {
     filename: string
   ): Observable<SuspiciousStatItem[]> {
     return this.http
-      .get<SuspiciousStatItem[]>(`${this.api_url}/suspicious-stat/${filename.slice(0, -4)}.json`)
+      .get<SuspiciousStatItem[]>(
+        `${this.api_url}/suspicious-stat/${filename.slice(0, -4)}.json`
+      )
       .pipe(
         map((res) =>
           res.map((item, index) => ({
@@ -55,9 +57,10 @@ export class ApiService {
     const formData: FormData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
     console.log(formData);
-    return this.http
-      .post(`${this.api_url}/upload-file`, formData).pipe(
-        map(() => { return true; }),
-      )
+    return this.http.post(`${this.api_url}/upload-file`, formData).pipe(
+      map(() => {
+        return true;
+      })
+    );
   }
 }

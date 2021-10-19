@@ -14,7 +14,7 @@ suspicious_docs_table = """
         num_of_sentences int,
         is_plg boolean default false,
         num_of_plg_sentences int,
-        plg_stats_name varchar(50),
+        unique_filename varchar(50),
         user_id int,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     );
@@ -103,15 +103,26 @@ select_embeddings = """
 ###################################### SUSPICIOUS DOCS ######################################
 insert_a_susp_doc = """
     INSERT INTO
-        suspicious_docs (id, filename, num_of_sentences, is_plg, num_of_plg_sentences, plg_stats_name, user_id)
+        suspicious_docs (filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id)
     VALUES
         (%s, %s, %s, %s, %s, %s);
 """
 
-select_a_susp_doc = """
+select_suspicious_docs = """
     SELECT
-        filename, num_of_sentences, is_plg, num_of_plg_sentences, plg_stats_name, user_id
+        id, filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id
+    FROM
+        suspicious_docs
     WHERE
-        id = %s & user_id = %s;
+        user_id = %s;
+"""
+
+select_a_suspicious_doc = """
+    SELECT
+        id, filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id
+    FROM 
+        suspicious_docs
+    WHERE
+        id = %s AND user_id = %s;
 """
 ####################################################################################

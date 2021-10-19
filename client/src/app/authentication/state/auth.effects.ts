@@ -105,7 +105,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         map(() => {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/login');
           this.messageService.openSnackBar(
             'You have been logged out',
           );
@@ -118,7 +118,6 @@ export class AuthEffects {
     private authService: AuthService,
     private actions$: Actions,
     private router: Router,
-    private store: Store,
     private messageService: MessageService
   ) {}
 }
