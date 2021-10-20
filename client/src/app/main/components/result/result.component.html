@@ -1,24 +1,36 @@
-<ng-container *ngIf="(vm$ | async) as vm">
-  <div *ngIf=vm.fileStat class="wrapper">
-    <app-raw-scroll
-      [sentences]="vm.susp_sent"
-      [fileStat]="vm.fileStat"
-      [fileType]="'susp'"
-    ></app-raw-scroll>
-
-    <div>
-      <div class="btn-container">
-        <button (click)="load_prev_doc()">Previouse doc</button>
-        <span>{{current_source_doc$ | async}}</span>
-        <button (click)="load_next_doc()">Next doc</button>
+<ng-container *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.fileStat" class="wrapper">
+    <div class="row">
+      <div class="susp-doc">
+        <h2>Tài liệu nghi ngờ</h2>
+        <p>{{vm.sentIndex.susp}}</p>
       </div>
-      <app-raw-scroll
-      [sentences]="vm.src_sent"
-      [fileStat]="vm.fileStat"
-      [fileType]="'src'"
-      [srcFileName]="current_source_doc$ | async"
-    ></app-raw-scroll>
+      <div>
+        <h2>Tài liệu nguồn</h2>
+        
+        <div class="btn-container">
+          <button mat-raised-button color="primary" (click)="load_prev_doc()">Tài liệu trước</button>
+          <div class="src-name">
+            <p><strong>{{ current_source_doc$ | async }}</strong></p>
+            <p>{{vm.sentIndex.src}}</p>
+          </div>
+          <button mat-raised-button color="primary" (click)="load_next_doc()">Tài liệu sau</button>
+        </div>
+      </div>
     </div>
-    
+
+    <div class="row text-box">
+      <app-raw-scroll
+        [sentences]="vm.susp_sent"
+        [fileStat]="vm.fileStat"
+        [fileType]="'susp'"
+      ></app-raw-scroll>
+      <app-raw-scroll
+        [sentences]="vm.src_sent"
+        [fileStat]="vm.fileStat"
+        [fileType]="'src'"
+        [srcFileName]="current_source_doc$ | async"
+      ></app-raw-scroll>
+    </div>
   </div>
 </ng-container>

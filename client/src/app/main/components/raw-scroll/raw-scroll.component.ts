@@ -65,4 +65,8 @@ export class RawScrollComponent implements OnInit {
       });
     }
   }
+
+  formatSentence(index: number, sent: string): string {
+    return `${index}: ${sent}`
+  }
 }

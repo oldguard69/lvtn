@@ -21,7 +21,7 @@ from controllers.docs import (
 
 
 load_dotenv(find_dotenv())
-SUSP_CORPUS_DIR = './corpus/susp'
+# SUSP_CORPUS_DIR = './corpus/susp'
 SRC_CORPUS_DIR = './corpus/src'
 PRODUCTION_SUSP_DIR = './corpus/production_susp'
 PRODUCTION_SUSP_STATS_DIR = './corpus/production_susp_stats'
@@ -58,7 +58,7 @@ def source_file_senteces(filename):
 
 @app.route('/suspicious-doc-sentences/<filename>')
 def suspicious_file_sentences(filename):
-    return get_response_for_request_file_sentences(SUSP_CORPUS_DIR, filename)
+    return get_response_for_request_file_sentences(PRODUCTION_SUSP_DIR, filename)
 
 
 @app.route("/suspicious-stats/<filename>")

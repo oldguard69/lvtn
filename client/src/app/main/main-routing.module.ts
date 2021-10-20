@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'upload-file'},
       { path: 'upload-file', component: UploadFileComponent },
-      { path: 'result', component: ResultComponent },
+      { path: 'result/:unique_filename', component: ResultComponent },
       { path: 'suspicious-docs', component: SuspiciousDocListComponent },
       { path: 'suspicious-docs/:id', component: SuspiciousDocDetailComponent}
     ],

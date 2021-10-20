@@ -53,3 +53,8 @@ export const GetSuspiciousDocDetailSuccess = createAction(
     '[Supicious Doc Detail] Get Suspicious Doc Success',
     props<{res: SuspiciousDoc}>()
 )
+
+export const SetCurrentSentencesIndex = createAction(
+    '[Result] Set Current Stats',
+    props<{index: number}>()
+);

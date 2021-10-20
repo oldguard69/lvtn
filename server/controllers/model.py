@@ -50,7 +50,7 @@ def convert_raw_suspicious_row(row):
         'num_of_sentences': row[2],
         'is_plg': row[3],
         'num_of_plg_sentences': row[4],
-        'plg_stats_name': row[5],
+        'unique_filename': row[5],
         'user_id': row[6],
     }
 

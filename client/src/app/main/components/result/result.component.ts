@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import {
   selectSourceSentences,
   selectSuspiciousSentences,
   selectSuspiciousStats,
+  selectSentenceIndex
 } from '../../state/selectors';
 
 @Component({
@@ -17,7 +19,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultComponent implements OnInit {
-  susp_name = 'susp_5.txt_2ceeb2a7-1491-455d-9c8b-ae536dca241d';
+  // susp_name = 'susp_5.txt_2ceeb2a7-1491-455d-9c8b-ae536dca241d';
 
   private doc_index = 0;
   private source_doc_list: string[] = [];
@@ -30,21 +32,29 @@ export class ResultComponent implements OnInit {
     this.store.select(selectSuspiciousStats),
     this.store.select(selectSourceSentences),
     this.store.select(selectSuspiciousSentences),
+    this.store.select(selectSentenceIndex)
   ]).pipe(
-    map(([fileStat, src_sent, susp_sent]) => ({
+    map(([fileStat, src_sent, susp_sent, sentIndex]) => ({
       fileStat,
       src_sent,
       susp_sent,
+      sentIndex
     }))
   );
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private route: ActivatedRoute) {}
   private destroyed$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.store.dispatch(
-      actions.GetStatOfSuspiciousFile({ filename: this.susp_name })
+    this.route.params.pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe(
+      (param) =>
+        this.store.dispatch(
+          actions.GetStatOfSuspiciousFile({ filename: param['unique_filename'] })
+        )
     );
+
     this.store
       .select(selectSourceFileList)
       .pipe(takeUntil(this.destroyed$))
@@ -56,6 +66,7 @@ export class ResultComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   load_prev_doc() {
@@ -77,5 +88,6 @@ export class ResultComponent implements OnInit {
       })
     );
     this.current_source_doc.next(this.source_doc_list[this.doc_index]);
+    this.store.dispatch(actions.SetCurrentSentencesIndex({index: this.doc_index}));
   }
 }
