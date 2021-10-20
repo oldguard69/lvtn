@@ -63,8 +63,8 @@ export class ApiService {
     formData.append('file', fileToUpload, fileToUpload.name);
     console.log(formData);
     return this.http.post(`${this.api_url}/upload-file`, formData).pipe(
-      map(() => {
-        return true;
+      map((res: any) => {
+        return res['result'];
       })
     );
   }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DeactivateGuard } from '../guards/deactivate.guard';
 import { IndexComponent } from './components/index/index.component';
 import { ResultComponent } from './components/result/result.component';
 import { SuspiciousDocDetailComponent } from './components/suspicious-doc-detail/suspicious-doc-detail.component';
@@ -11,11 +12,15 @@ const routes: Routes = [
     path: '',
     component: IndexComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'upload-file'},
-      { path: 'upload-file', component: UploadFileComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'upload-file' },
+      {
+        path: 'upload-file',
+        component: UploadFileComponent,
+        canDeactivate: [DeactivateGuard],
+      },
       { path: 'result/:unique_filename', component: ResultComponent },
       { path: 'suspicious-docs', component: SuspiciousDocListComponent },
-      { path: 'suspicious-docs/:id', component: SuspiciousDocDetailComponent}
+      { path: 'suspicious-docs/:id', component: SuspiciousDocDetailComponent },
     ],
   },
 ];

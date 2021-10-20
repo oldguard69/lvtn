@@ -1,6 +1,6 @@
 import os
 import uuid
-
+from time import sleep
 from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, flash, request, jsonify
@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-# from controllers.check_plagiarism import check_plagiarism
+from controllers.check_plagiarism import check_plagiarism
 from util.file_manager import file_manager
 from controllers.helpers import return_response, allowed_file
 from controllers.authentication import (login_controller, register_controller)
@@ -21,7 +21,6 @@ from controllers.docs import (
 
 
 load_dotenv(find_dotenv())
-# SUSP_CORPUS_DIR = './corpus/susp'
 SRC_CORPUS_DIR = './corpus/src'
 PRODUCTION_SUSP_DIR = './corpus/production_susp'
 PRODUCTION_SUSP_STATS_DIR = './corpus/production_susp_stats'
@@ -69,28 +68,29 @@ def main(filename):
     return response
 
 
-# @app.route('/upload-file', methods=['POST'])
-# def upload_file():
-#     # check if the post request has the file part
-#     if 'file' not in request.files:
-#         flash('No file part')
-#         return return_response({'msg': 'No file part'})
-#     file = request.files['file']
+@app.route('/upload-file', methods=['POST'])
+@jwt_required(locations=["headers"])
+def upload_file():
+    # check if the post request has the file part
+    if 'file' not in request.files:
+        flash('No file part')
+        return return_response({'msg': 'No file part'})
+    file = request.files['file']
 
-#     # If the user does not select a file, the browser submits an
-#     # empty file without a filename.
-#     if file.filename == '':
-#         flash('No selected file')
-#         return return_response({'msg': 'No selected file'})
+    # If the user does not select a file, the browser submits an
+    # empty file without a filename.
+    if file.filename == '':
+        flash('No selected file')
+        return return_response({'msg': 'No selected file'})
 
-#     if file and allowed_file(file.filename):
-#         filename = secure_filename(file.filename)
-#         unique_name = filename.split('.')[0] + '_' + str(uuid.uuid4())
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        print(filename)
+        unique_name = filename + '_' + str(uuid.uuid4())
         
-#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name + '.txt'))
-
-#         res = check_plagiarism(get_jwt('user_id'), filename, unique_name)
-#         return return_response({'result': res}), 200
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name))
+        res = check_plagiarism(get_jwt()['user_id'], filename, unique_name)
+        return return_response({'result': res})
 
 
 @app.route('/suspicious-docs')

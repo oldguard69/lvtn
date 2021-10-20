@@ -9,7 +9,8 @@ import {
   selectSourceSentences,
   selectSuspiciousSentences,
   selectSuspiciousStats,
-  selectSentenceIndex
+  selectSentenceIndex,
+  selectSupiciousDocDetailFilename
 } from '../../state/selectors';
 
 @Component({
@@ -32,13 +33,15 @@ export class ResultComponent implements OnInit {
     this.store.select(selectSuspiciousStats),
     this.store.select(selectSourceSentences),
     this.store.select(selectSuspiciousSentences),
-    this.store.select(selectSentenceIndex)
+    this.store.select(selectSentenceIndex),
+    this.store.select(selectSupiciousDocDetailFilename)
   ]).pipe(
-    map(([fileStat, src_sent, susp_sent, sentIndex]) => ({
+    map(([fileStat, src_sent, susp_sent, sentIndex, suspFilename]) => ({
       fileStat,
       src_sent,
       susp_sent,
-      sentIndex
+      sentIndex,
+      suspFilename
     }))
   );
 

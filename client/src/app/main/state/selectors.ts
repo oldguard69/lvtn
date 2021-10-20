@@ -37,3 +37,8 @@ export const selectSentenceIndex = createSelector(
   selectMainFeatureKey,
   (state) => ({ src: state.currentSrcIndex, susp: state.currentSuspIndex })
 );
+
+export const selectSupiciousDocDetailFilename = createSelector(
+  selectMainFeatureKey,
+  (state) => state.suspDocDetail?.filename
+)

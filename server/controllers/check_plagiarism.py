@@ -11,8 +11,6 @@ from util.sentence_transformer import sentence_transfomer
 classifier = file_manager.pickle_load('./util/model/classifier.pk')
 
 
-
-
 def get_number_of_plg_sentences(stats):
     res_set = set()
     for s in stats:
@@ -22,7 +20,6 @@ def get_number_of_plg_sentences(stats):
     
 
 def check_plagiarism(user_id, filename, unique_filename):
-    unique_filename =  unique_filename + '.json'
     is_plg = False
     num_of_sentences = 0
     num_of_plg_sentences = 0
@@ -32,7 +29,7 @@ def check_plagiarism(user_id, filename, unique_filename):
     susp_dir = './corpus/production_susp'
     susp_stats_dir = './corpus/production_susp_stats'
     print('compute embeddings...', end='')
-    susp_embeddings = sentence_transfomer.compute_embedding_of_a_doc(susp_dir, filename, 32)
+    susp_embeddings = sentence_transfomer.compute_embedding_of_a_doc(susp_dir, unique_filename, 32)
     print(f'done {len(susp_embeddings)}')
     num_of_sentences = len(susp_embeddings)
 
@@ -58,7 +55,7 @@ def check_plagiarism(user_id, filename, unique_filename):
         [filename, is_plg, num_of_sentences, num_of_plg_sentences, unique_filename, num_of_plg_paragraph]
     ):
         print(f'{i}: {j}')
-    file_manager.write_json(osjoin(susp_stats_dir, unique_filename), res)
+    file_manager.write_json(osjoin(susp_stats_dir, f'{unique_filename}.json'), res)
     
     doc_id = insert_a_suspicious_doc(
         filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id

@@ -1,10 +1,10 @@
 <mat-card>
   <h2>Tải file để kiểm tra</h2>
   <div class="form-group">
-    <!-- <label for="file">Choose File</label> -->
     <input type="file" id="file" (change)="handleFileInput($event.target)" />
   </div>
   <button
+    *ngIf="!isLoading; else spinner"
     mat-raised-button
     color="primary"
     type="submit"
@@ -12,4 +12,8 @@
   >
     Upload file
   </button>
+  <ng-template #spinner>
+    <h4>Đang xử lý, có thể mất 10 phút...</h4>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </ng-template>
 </mat-card>

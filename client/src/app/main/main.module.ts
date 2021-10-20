@@ -8,6 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import {MatDividerModule} from '@angular/material/divider';
 import { MainRoutingModule } from './main-routing.module';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 import { TextBoxComponent } from './components/text-box/text-box.component';
 import { ResultComponent } from './components/result/result.component';
 import { RawScrollComponent } from './components/raw-scroll/raw-scroll.component';
@@ -38,7 +40,8 @@ import { SuspiciousDocDetailComponent } from './components/suspicious-doc-detail
     MatCardModule,
     SharedModule,
     MatTableModule,
-    MatDividerModule
+    MatDividerModule,
+    MatProgressBarModule
   ],
 })
 export class MainModule {}

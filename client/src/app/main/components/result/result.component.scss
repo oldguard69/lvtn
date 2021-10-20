@@ -1,47 +1,45 @@
 .wrapper {
-    display: grid;
-    padding: 5px 20px 20px;
+  display: grid;
+  padding: 5px 20px 20px;
+  gap: 20px;
+  grid-template: 80px 600px / 1fr;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .row {
+    display: flex;
     gap: 20px;
-    grid-template: 80px 600px / 1fr;
 
-    h2 {
-        text-align: center;
-        margin-bottom: 5px;
+    & > * {
+      flex: 1 1 0px;
     }
-
-    .row {
-        display: flex;
-        gap: 20px;
-
-        & > * {
-            flex: 1 1 0px;
-        }
-    }
-
+  }
 }
 
 .btn-container {
-    display:  flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 
-    .src-name {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+  .src-name,
+  .susp-name {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 
-        p {
-            margin-bottom: 0;
-        }
+    p {
+      margin-bottom: 0;
     }
+  }
 }
 
 .susp-doc {
-    p {
-        text-align: center;
-    }
+  p {
+    text-align: center;
+  }
 }
-
-
 
 // <div>
 //       <h2>Tai lieu nghi ngo</h2>
