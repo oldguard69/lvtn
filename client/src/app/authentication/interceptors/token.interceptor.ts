@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
     this.authToken$.subscribe(token => {
       if (token) {
         request = request.clone({setHeaders: {
-          Authorization: `Bear ${token}`
+          Authorization: `Bearer ${token}`
         }})
       }
     })

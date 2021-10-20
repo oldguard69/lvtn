@@ -17,7 +17,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultComponent implements OnInit {
-  susp_name = 'susp_2.txt';
+  susp_name = 'susp_5.txt_2ceeb2a7-1491-455d-9c8b-ae536dca241d';
 
   private doc_index = 0;
   private source_doc_list: string[] = [];

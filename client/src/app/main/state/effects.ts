@@ -22,7 +22,7 @@ export class MainEffects {
   loadFirstSourceSentence$ = createEffect(() =>
     this.action$.pipe(
       ofType(actions.GetStatOfSuspiciousFileSuccess),
-      map((action) => action.res[0].srcFile),
+      map((action) => action.res[0].src_file),
       exhaustMap((srcFile) =>
         this.apiService
           .fetchSourceFileSentences(srcFile)
@@ -49,6 +49,28 @@ export class MainEffects {
         this.apiService
           .fetchSuspiciousFileSentences(action.filename)
           .pipe(map((res) => actions.GetSuspFileSentencesSuccess({ res })))
+      )
+    )
+  );
+
+  loadSuspiciousDocs$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(actions.GetSuspiciousDocs),
+      exhaustMap((action) =>
+        this.apiService
+          .fetchSuspiciousDocs()
+          .pipe(map((res) => actions.GetSuspiciousDocsSuccess({ res })))
+      )
+    )
+  );
+
+  loadSuspiciousDocDetail$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(actions.GetSuspiciousDocDetail),
+      exhaustMap((action) =>
+        this.apiService
+          .fetchSuspiciousDocDetail(action.id)
+          .pipe(map((res) => actions.GetSuspiciousDocDetailSuccess({ res })))
       )
     )
   );

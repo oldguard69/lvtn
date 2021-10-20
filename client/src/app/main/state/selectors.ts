@@ -21,4 +21,14 @@ export const selectSourceSentences = createSelector(
 export const selectSourceFileList = createSelector(
     selectMainFeatureKey,
     state => state.srcDocs
+);
+
+export const selectSuspiciousDocs = createSelector(
+    selectMainFeatureKey,
+    state => state.suspDocs
+);
+
+export const selectSuspiciousDocDetail = createSelector(
+    selectMainFeatureKey,
+    state => state.suspDocDetail
 )

@@ -1,0 +1,44 @@
+<!-- <p>{{ suspiciousDocDetail$ | async | json }}</p> -->
+
+<mat-card *ngIf="suspiciousDocDetail$ | async as suspDoc">
+  <h2>Chi tiết</h2>
+  <div class="table">
+    <mat-divider></mat-divider>
+
+      <div class="row">
+          <p>Tên tài liệu:</p>
+          <p>{{ suspDoc.filename }}</p>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row">
+        <p>Số câu:</p>
+        <p>{{ suspDoc.num_of_sentences }}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row">
+        <p>Số câu được phát hiện đạo văn:</p>
+        <p>{{ suspDoc.num_of_plg_sentences }}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row">
+        <p>Tỉ lệ số câu đạo văn:</p>
+        <p>
+            {{
+            plagiarisedPercentage(
+              suspDoc.num_of_sentences,
+              suspDoc.num_of_plg_sentences
+            )
+          }}
+        </p>
+    </div>
+    <mat-divider></mat-divider>
+
+  </div>
+
+  <div class="button-container">
+    <a mat-raised-button color="primary" href="" *ngIf="suspDoc.is_plg"
+      >Xem đoạn đạo văn</a
+    >
+    <a mat-raised-button [routerLink]="['/main', 'suspicious-docs']">Trở lại</a>
+  </div>
+</mat-card>

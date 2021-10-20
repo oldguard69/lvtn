@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SuspiciousStatItem } from '../interface/susp-stat.interface';
+import { SuspiciousDoc } from '../interface/susp-doc';
 
 @Injectable({
   providedIn: 'root',
@@ -18,21 +19,26 @@ export class ApiService {
   ): Observable<SuspiciousStatItem[]> {
     return this.http
       .get<SuspiciousStatItem[]>(
-        `${this.api_url}/suspicious-stats/${filename.slice(0, -4)}.json`
+        `${this.api_url}/suspicious-stats/${filename}.json`
       )
       .pipe(
-        map((res) =>
-          res.map((item, index) => ({
+        map((res) =>{
+
+          const t = res.map((item, index) => ({
             ...item,
             colorClass: `color-${index}`,
             srcIndexRange: new Set(
-              this.range(item.paragraphLength, item.srcIndex)
+              this.range(item.paragraph_length, item.src_index)
             ),
             suspIndexRange: new Set(
-              this.range(item.paragraphLength, item.suspIndex)
+              this.range(item.paragraph_length, item.susp_index)
             ),
-          }))
+          })
+
         )
+          console.log(t)
+          return t
+        })
       );
   }
 
@@ -53,7 +59,6 @@ export class ApiService {
   }
 
   uploadFile(fileToUpload: File) {
-    const endpoint = 'your-destination-url';
     const formData: FormData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
     console.log(formData);
@@ -62,5 +67,17 @@ export class ApiService {
         return true;
       })
     );
+  }
+
+  fetchSuspiciousDocs(): Observable<SuspiciousDoc[]> {
+    return this.http
+      .get(`${this.api_url}/suspicious-docs`)
+      .pipe(map((res: any) => res.result));
+  }
+
+  fetchSuspiciousDocDetail(doc_id: number): Observable<SuspiciousDoc> {
+    return this.http
+      .get(`${this.api_url}/suspicious-docs/${doc_id}`)
+      .pipe(map((res: any) => res.result));
   }
 }

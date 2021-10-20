@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { SuspiciousDoc } from '../interface/susp-doc';
 import { SuspiciousStatItem } from '../interface/susp-stat.interface';
 import * as actions from './actions';
 
@@ -7,6 +8,8 @@ export interface MainState {
   stats: SuspiciousStatItem[];
   currentSrcSents: string[];
   currentSuspSents: string[];
+  suspDocs: SuspiciousDoc[];
+  suspDocDetail?: SuspiciousDoc;
 }
 
 const initialState: MainState = {
@@ -14,6 +17,8 @@ const initialState: MainState = {
   stats: [],
   currentSrcSents: [],
   currentSuspSents: [],
+  suspDocs: [],
+  suspDocDetail: undefined,
 };
 
 export const mainReducer = createReducer(
@@ -21,7 +26,7 @@ export const mainReducer = createReducer(
   on(actions.GetStatOfSuspiciousFileSuccess, (state, { res }) => ({
     ...state,
     stats: res,
-    srcDocs: res.map(item => item.srcFile)
+    srcDocs: res.map((item: any) => item.src_file),
   })),
   on(actions.GetSuspFileSentencesSuccess, (state, { res }) => ({
     ...state,
@@ -30,5 +35,13 @@ export const mainReducer = createReducer(
   on(actions.GetSourceFileSentencesSuccess, (state, { res }) => ({
     ...state,
     currentSrcSents: res,
+  })),
+  on(actions.GetSuspiciousDocDetailSuccess, (state, { res }) => ({
+    ...state,
+    suspDocDetail: res,
+  })),
+  on(actions.GetSuspiciousDocsSuccess, (state, { res }) => ({
+    ...state,
+    suspDocs: res,
   }))
 );

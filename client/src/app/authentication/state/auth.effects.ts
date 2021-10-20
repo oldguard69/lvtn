@@ -22,8 +22,8 @@ export class AuthEffects {
         if (token === null) {
           return AuthActions.localStorageEmpty();
         } else {
-          const tokenPayload = JSON.parse(window.atob(token.split('.')[1]));
-          console.log(tokenPayload)
+          // const tokenPayload = JSON.parse(window.atob(token.split('.')[1]));
+          // console.log(tokenPayload)
           return AuthActions.loadAuthTokenFromLocalStorageSuccess({
             token: token,
           });
@@ -64,7 +64,7 @@ export class AuthEffects {
           map((res: any) => {
             this.router.navigateByUrl('/main/upload-file');
             this.messageService.openSnackBar('Log in successfully');
-            console.log(res)
+            // console.log(res)
             return AuthActions.loginSuccess({ token: res.access_token });
           }),
           catchError((error: ResponseMessage[]) => {

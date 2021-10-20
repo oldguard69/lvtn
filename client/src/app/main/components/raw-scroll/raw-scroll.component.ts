@@ -35,7 +35,7 @@ export class RawScrollComponent implements OnInit {
   initializeHighLight() {
     if (this.fileType === 'src') {
       this.highlight = this.fileStat
-        .filter((item) => item.srcFile === this.srcFileName)
+        .filter((item) => item.src_file === this.srcFileName)
         .map((item) => ({
           indexRange: item.srcIndexRange,
           colorClass: item.colorClass,

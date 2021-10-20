@@ -1,0 +1,29 @@
+<h2>Lịch sử kiểm tra</h2>
+
+<table mat-table [dataSource]="suspiciousDocs$ | async" class="mat-elevation-z8">
+  <ng-container matColumnDef="filename">
+    <th mat-header-cell *matHeaderCellDef>Tên tài liệu</th>
+    <td mat-cell *matCellDef="let element">{{ element.filename }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="num-of-sentences">
+    <th mat-header-cell *matHeaderCellDef>Số câu</th>
+    <td mat-cell *matCellDef="let element">{{ element.num_of_sentences }}</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="is-plg">
+    <th mat-header-cell *matHeaderCellDef>Tìm thấy đoạn đạo văn</th>
+    <td mat-cell *matCellDef="let element">{{ isFindPlagiarismParagraph(element.is_plg) }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="view-detail">
+    <th mat-header-cell *matHeaderCellDef>Xem chi tiết</th>
+    <td mat-cell *matCellDef="let element">
+        <a [routerLink]="['/main', 'suspicious-docs', element.id]" mat-raised-button>Xem</a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
