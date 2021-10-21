@@ -16,7 +16,8 @@ from controllers.authentication import (login_controller, register_controller)
 from controllers.docs import (
     get_response_for_request_file_sentences,
     get_a_suspicious_doc_controller, 
-    get_suspicious_docs_controller
+    get_suspicious_docs_controller,
+    calulate_cos_sim_controller
 )
 
 
@@ -104,3 +105,7 @@ def get_suspicious_docs():
 def get_a_suspicious_doc(doc_id):
     return get_a_suspicious_doc_controller(doc_id, get_jwt()['user_id'])
 
+
+@app.route('/calulcate-cosine-similarity', methods=['POST'])
+def calculate_cosine_sim():
+    return calulate_cos_sim_controller(request)

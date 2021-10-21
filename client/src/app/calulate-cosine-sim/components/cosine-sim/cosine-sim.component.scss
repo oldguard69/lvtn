@@ -1,0 +1,48 @@
+mat-card {
+  width: 60%;
+  margin: 50px auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+
+    .row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      &.textbox {
+        & > * {
+          flex: 1 1 0px;
+        }
+      }
+    }
+  }
+
+  mat-form-field {
+    width: 95%;
+    margin: auto;
+  }
+
+  .perform-cleaning {
+    display: flex;
+    justify-content: center;
+  }
+
+  mat-radio-group {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .result {
+      width: 40%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+}

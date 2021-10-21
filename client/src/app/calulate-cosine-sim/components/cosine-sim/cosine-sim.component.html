@@ -1,0 +1,50 @@
+<app-header></app-header>
+<mat-card>
+  <form action="" (ngSubmit)="submit()" [formGroup]="form">
+    <div class="row textbox">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Câu 1</mat-label>
+        <textarea
+          [mat-autosize]="true"
+          [matAutosizeMinRows]="10"
+          matInput
+          formControlName="sent1"
+        ></textarea>
+        <mat-error *ngIf="sent1.hasError('required')"
+          >Vui lòng điền vào</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Câu 2</mat-label>
+        <textarea
+          mat-autosize
+          [matAutosizeMinRows]="10"
+          matInput
+          formControlName="sent2"
+        ></textarea>
+        <mat-error *ngIf="sent2.hasError('required')"
+          >Vui lòng điền vào</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="row perform-cleaning">
+      <mat-radio-group
+        aria-label="Select an option"
+        formControlName="perform_cleaning"
+      >
+        <mat-radio-button value="true"
+          >Loại bỏ dấu câu, đưa về dạng viết thường</mat-radio-button
+        >
+        <mat-radio-button value="false">Không biến đổi</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <button mat-raised-button color="primary" type="submit">Tính</button>
+    </div>
+  </form>
+
+  <div class="result" *ngIf="result$ | async as result">
+    <h3><strong>Độ tương tự: {{result.cosine_similarity}} </strong></h3>
+    <h3><strong>Dự đoán đạo văn: {{format(result.is_plagiarism)}}</strong></h3>
+  </div>
+</mat-card>
