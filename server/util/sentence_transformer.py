@@ -112,4 +112,6 @@ local_model_directory = 'C:/Users/jeanLannes/workstation/lvtn/server/util/model/
 tokenizer = AutoTokenizer.from_pretrained(local_model_directory)
 phobert = AutoModel.from_pretrained(local_model_directory)
 
+phobert.eval()
+
 sentence_transfomer = SentenceTransformer(phobert, tokenizer)
