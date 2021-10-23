@@ -19,5 +19,15 @@ susp_embeddings_for_classification = osjoin(
     embeddings_dir, 'susp_for_classification'
 )
 
+train_classifier_dir = 'train_classifier'
+csv_dir = osjoin(train_classifier_dir, 'csv')
+parquet_train_classifier_dir = osjoin(train_classifier_dir, 'parquet')
+train_classifier_log_file = osjoin('log', 'train_classification_model.log')
+
+find_plagiarism_paragraph_dir = 'find_plagiarism_paragarph'
+plg_dataframe_dir = osjoin(find_plagiarism_paragraph_dir, 'plg_dataframe')
+predited_stats_dir = osjoin(find_plagiarism_paragraph_dir, 'predicted_stats')
+find_plg_log_file = osjoin('log', 'find_plagiarism_paragraph.log')
+
 production_susp_dir = osjoin(root_dir, 'production_susp')
 production_susp_stats_dir = osjoin(root_dir, 'production_susp_stats')
