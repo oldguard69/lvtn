@@ -32,11 +32,11 @@ export const mainReducer = createReducer(
     stats: res,
     srcDocs: res.map((item: any) => item.src_file),
     currentSrcIndex: formatSentenceIndex(
-      res[0].src_index,
+      res[0].src_start_index,
       res[0].paragraph_length
     ),
     currentSuspIndex: formatSentenceIndex(
-      res[0].susp_index,
+      res[0].susp_insert_index,
       res[0].paragraph_length
     )
   })),
@@ -59,11 +59,11 @@ export const mainReducer = createReducer(
   on(actions.SetCurrentSentencesIndex, (state, { index }) => ({
     ...state,
     currentSrcIndex: formatSentenceIndex(
-      state.stats[index].src_index,
+      state.stats[index].src_start_index,
       state.stats[index].paragraph_length
     ),
     currentSuspIndex: formatSentenceIndex(
-      state.stats[index].susp_index,
+      state.stats[index].susp_insert_index,
       state.stats[index].paragraph_length
     )
   }))

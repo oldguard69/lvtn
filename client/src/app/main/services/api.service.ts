@@ -28,10 +28,10 @@ export class ApiService {
             ...item,
             colorClass: `color-${index}`,
             srcIndexRange: new Set(
-              this.range(item.paragraph_length, item.src_index)
+              this.range(item.paragraph_length, item.src_start_index)
             ),
             suspIndexRange: new Set(
-              this.range(item.paragraph_length, item.susp_index)
+              this.range(item.paragraph_length, item.susp_insert_index)
             ),
           })
 

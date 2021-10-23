@@ -59,8 +59,8 @@ class PlagiarisedDocMaker:
             file_stats.append({
                     'src_file': src, 
                     'paragraph_length': paragraph_len,
-                    'src_index': start_index, 
-                    'susp_index': insert_index
+                    'src_start_index': start_index, 
+                    'susp_insert_index': insert_index
                 })
         
         file_manager.write_json(

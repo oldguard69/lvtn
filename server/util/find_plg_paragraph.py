@@ -54,8 +54,8 @@ def initiate_temp_stats(row):
     return {
         'prev_src_index': row['src_index'],
         'prev_susp_index': row['susp_index'],
-        'start_index': row['src_index'],
-        'insert_index': row['susp_index'],
+        'src_start_index': row['src_index'],
+        'susp_insert_index': row['susp_index'],
         'real_paragraph_length': 1,
         'check_paragraph_length': 1
     }
@@ -102,7 +102,7 @@ def find_plagirised_paragraph_with_df_of_a_same_source(df, src_file):
                         res[i]['prev_susp_index'] = row[SUSP_INDEX]
                         res[i]['prev_src_index'] = row[SRC_INDEX]
                         res[i]['real_paragraph_length'] = row[SUSP_INDEX] - \
-                            temp_stats['insert_index'] + 1
+                            temp_stats['susp_insert_index'] + 1
                         res[i]['check_paragraph_length'] += 1
                         # câu đã được xét. Những lần lặp tới của res nếu k thỏa
                         # thì không thêm vào new_temp_stats
@@ -127,8 +127,8 @@ def find_plagirised_paragraph_with_df_of_a_same_source(df, src_file):
         if temp_stats['check_paragraph_length'] >= 5 and temp_stats['real_paragraph_length'] >= 5:
             final_res.append({
                 'src_file': src_file,
-                'src_index': temp_stats['start_index'],
-                'susp_index': temp_stats['insert_index'],
+                'src_start_index': temp_stats['src_start_index'],
+                'susp_insert_index': temp_stats['susp_insert_index'],
                 'paragraph_length': temp_stats['real_paragraph_length']
             })
     return final_res
@@ -140,7 +140,7 @@ def find_plagiarised_paragraph(df):
         res.extend(find_plagirised_paragraph_with_df_of_a_same_source(
             df.loc[df.src_file == src, :], src)
         )
-    res = sorted(res, key=lambda x: x['susp_index'])
+    res = sorted(res, key=lambda x: x['susp_insert_index'])
     return res
 
 
@@ -152,8 +152,8 @@ def convert_raw_stats(raw_stats):
     stats = defaultdict(list)
     for item in raw_stats:
         para_len = item['paragraph_length']
-        start_index = item['src_index']
-        insert_index = item['susp_index']
+        start_index = item['src_start_index']
+        insert_index = item['susp_insert_index']
 
         stats[item['src_file']].append({
             'src': set(range(start_index, start_index+para_len)),
@@ -211,13 +211,13 @@ def print_stats(stats, column_size=25):
 
     width = column_size * 4 + 5
     print('='*width)
-    for i in ['src_file', 'start_index', 'insert_index', 'paragraph_len']:
+    for i in ['src_file', 'src_start_index', 'susp_insert_index', 'paragraph_length']:
         print('|' + padding_space(i, column_size), end='')
     print('|')
     print('='*width)
 
     for item in stats:
-        for key in ['src_file', 'start_index', 'insert_index', 'paragraph_len']:
+        for key in ['src_file', 'src_start_index', 'susp_insert_index', 'paragraph_length']:
             print("|" + padding_space(item[key], column_size), end='')
         print('|')
         print('='*width)

@@ -14,7 +14,9 @@ classifier = file_manager.pickle_load('./util/model/classifier.pk')
 def get_number_of_plg_sentences(stats):
     res_set = set()
     for s in stats:
-        plg_susp_index = [i for i in range(s['susp_index'], s['susp_index']+s['paragraph_length'])]
+        plg_susp_index = [
+            i for i in range(s['susp_insert_index'], s['susp_insert_index']+s['paragraph_length'])
+        ]
         res_set = res_set.union(set(plg_susp_index))
     return len(res_set)
     
