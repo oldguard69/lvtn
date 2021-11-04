@@ -15,8 +15,6 @@ from core.directory import (
 )
 
 
-
-
 spark = SparkSession.builder.appName('test_csv').getOrCreate()
 schema = T.StructType([
                        T.StructField('cosine_similarity', T.FloatType(), False),
