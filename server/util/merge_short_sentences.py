@@ -1,3 +1,6 @@
+from typing import List
+
+
 def merge_short_sentence(sent_tokenized_doc: List[str], minimum_len: int) -> List[str]:
     '''Merge sentence with less than minimum_len to the following sentence.
        Merge the last sentence to it's previous sentence if it shorter than minimum_len

@@ -2,7 +2,7 @@ import json
 import pickle
 import os
 from typing import List
-
+import textract
 
 class FileManager:
     def __init__(self, encoding='utf-8-sig'):
@@ -90,6 +90,11 @@ class FileManager:
     def listdir_and_sort(self, dir: str) -> List[str]:
         """List all files in dir and sort them by their name"""
         return self.sort_files(os.listdir(dir))
+
+    def convert_pdf_to_txt(self, pdf_file):
+        text = textract.process(pdf_file, language='eng')
+        text = text.decode('utf-8')
+        return text
 
 
 

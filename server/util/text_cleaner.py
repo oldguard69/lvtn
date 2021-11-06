@@ -13,7 +13,7 @@ class TextCleaner:
         return re.sub(punctuation, '', text)
     
     def remove_tab_and_new_line_char(self, text: str) -> str:
-        return re.sub('[\n\t]', '', text)
+        return re.sub('[\n\t]', ' ', text)
 
     def remove_duplicate_whitespace(self, text: str) -> str:
         t = self.remove_tab_and_new_line_char(text)

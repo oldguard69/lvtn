@@ -1,5 +1,10 @@
 from os.path import join as osjoin
 
+paper_root_dir = 'paper'
+stdj_dir = osjoin(paper_root_dir, 'stdj')
+ctu_dir = osjoin(paper_root_dir, 'ctu')
+
+
 stats_about_file_dir = osjoin('..', 'stats_about_files')
 root_dir = osjoin('..', 'corpus')
 
