@@ -12,8 +12,7 @@ from util.text_cleaner import text_cleaner
 from util.merge_short_sentences import merge_short_sentence
 
 
-def convert(pdf_file):
-    # raw_text = file_manager.convert_pdf_to_txt(pdf_file)
+def convert_pdf_to_txt(pdf_file, unique_name):
     parsed = parser.from_file(pdf_file)
     raw_text = parsed['content']
     clean_text = text_cleaner.remove_invalid_unicode(raw_text)
@@ -24,11 +23,12 @@ def convert(pdf_file):
     sents = sent_tokenize(remove_dup_whitespace_text)
     merged_sents = merge_short_sentence(sents, 100)
 
-    file_manager.write_whole_file(f'fil/raw_{pdf_file[-4:]}.txt', raw_text)
-    file_manager.write_whole_file(f'fil/clean_{pdf_file[:-4]}.txt', clean_text)
-    file_manager.write_lines(f'fil/final_{pdf_file[:-4]}.txt', merged_sents)
+    file_manager.write_whole_file(f'util/fil/raw_{unique_name}.txt', raw_text)
+    file_manager.write_whole_file(f'util/fil/clean_{unique_name}.txt', clean_text)
+    # file_manager.write_lines(f'utl/fil/final_{pdf_file[:-4]}.txt', merged_sents)
+    return merged_sents
 
 
-pdf_file = osjoin('paper_5.pdf')
-convert(pdf_file)
-print('done')
+# pdf_file = osjoin('paper_5.pdf')
+# convert_pdf_to_txt(pdf_file)
+# print('done')

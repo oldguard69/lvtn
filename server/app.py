@@ -10,6 +10,7 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
 from controllers.check_plagiarism import check_plagiarism
+from controllers.check_plagiarism import handle_pdf
 from util.file_manager import file_manager
 from controllers.helpers import return_response, allowed_file
 from controllers.authentication import (login_controller, register_controller)
@@ -24,11 +25,13 @@ from controllers.docs import (
 load_dotenv(find_dotenv())
 SRC_CORPUS_DIR = './corpus/src'
 PRODUCTION_SUSP_DIR = './corpus/production_susp'
+PRODUCTION_SUSP_PDF_DIR = os.path.join(PRODUCTION_SUSP_DIR, 'pdf')
 PRODUCTION_SUSP_STATS_DIR = './corpus/production_susp_stats'
 
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = PRODUCTION_SUSP_DIR
+app.config['UPLOAD_PDF_FOLDER'] = PRODUCTION_SUSP_PDF_DIR
 app.secret_key = os.getenv('secret_key')
 app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 CORS(app)
@@ -84,13 +87,21 @@ def upload_file():
         flash('No selected file')
         return return_response({'msg': 'No selected file'})
 
+    
+    user_id = get_jwt()['user_id']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         print(filename)
         unique_name = filename + '_' + str(uuid.uuid4())
         
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name))
-        res = check_plagiarism(get_jwt()['user_id'], filename, unique_name)
+        if filename[-3:] == 'pdf':
+            pdf_file = os.path.join(app.config['UPLOAD_PDF_FOLDER'], unique_name) 
+            file.save(pdf_file)
+            res = handle_pdf(pdf_file, user_id, filename, unique_name)
+        else:   
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name))
+            res = check_plagiarism(user_id, filename, unique_name)
+
         return return_response({'result': res})
 
 

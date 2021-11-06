@@ -7,6 +7,7 @@ from util.find_plg_paragraph import get_dataframe_contain_plagiarised_sentences
 from util.find_plg_paragraph import find_plagiarised_paragraph
 from util.file_manager import file_manager
 from util.sentence_transformer import sentence_transfomer
+from util.convert_pdf_to_txt import convert_pdf_to_txt
 
 classifier = file_manager.pickle_load('./util/model/classifier.pk')
 
@@ -72,3 +73,9 @@ def check_plagiarism(user_id, filename, unique_filename):
         'num_of_plg_sentences': num_of_plg_sentences,
         'user_id': user_id
     }
+
+
+def handle_pdf(pdf_file, user_id, filename, unique_filename):
+    merged_sents = convert_pdf_to_txt(pdf_file, unique_filename)
+    file_manager.write_lines(osjoin('corpus', 'production_susp', unique_filename), merged_sents)
+    return check_plagiarism(user_id, filename, unique_filename)
