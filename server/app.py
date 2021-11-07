@@ -11,6 +11,7 @@ from flask_jwt_extended import JWTManager
 
 from controllers.check_plagiarism import check_plagiarism
 from controllers.check_plagiarism import handle_pdf
+from util.merge_overlapping_paragraph import merge_overlapping_paragraph
 from util.file_manager import file_manager
 from controllers.helpers import return_response, allowed_file
 from controllers.authentication import (login_controller, register_controller)
@@ -67,6 +68,7 @@ def suspicious_file_sentences(filename):
 @app.route("/suspicious-stats/<filename>")
 def main(filename):
     stats = file_manager.read_json(os.path.join(PRODUCTION_SUSP_STATS_DIR, filename))
+    stats = merge_overlapping_paragraph(stats)
     response = jsonify(stats)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response

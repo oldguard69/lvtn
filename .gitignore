@@ -14,3 +14,5 @@ embeddings
 .env
 
 __pycache__/
+
+util/fil/
