@@ -20,4 +20,10 @@ export class SuspiciousDocListComponent implements OnInit {
   isFindPlagiarismParagraph(is_plg: Boolean): string {
     return is_plg ? 'Có' : 'Không'
   }
+
+  percentageOfPlagiarism(total_sents: number, total_plg_sents: number): string {
+    let percentage = total_plg_sents * 100 / total_sents;
+    percentage = Number(percentage.toFixed(3));
+    return `${percentage} %`;
+  }
 }

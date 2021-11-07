@@ -12,12 +12,12 @@
         <h2>Tài liệu nguồn</h2>
         
         <div class="btn-container">
-          <button mat-raised-button color="primary" (click)="load_prev_doc()">Tài liệu trước</button>
+          <button mat-raised-button color="primary" (click)="load_prev_doc()">Đoạn trước</button>
           <div class="src-name">
             <p><strong>{{ current_source_doc$ | async }}</strong></p>
             <p>{{vm.sentIndex.src}}</p>
           </div>
-          <button mat-raised-button color="primary" (click)="load_next_doc()">Tài liệu sau</button>
+          <button mat-raised-button color="primary" (click)="load_next_doc()">Đoạn tiếp theo</button>
         </div>
       </div>
     </div>

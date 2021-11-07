@@ -38,6 +38,7 @@ def get_dataframe_contain_plagiarised_sentences(susp_embeddings, classifier) -> 
     plg_sents_df = pd.DataFrame()
     i = 0
     for src_emb in stream_source_embeddings_from_pickle(3):
+    # for src_emb in stream_source_embedding_from_database(300):
         df = pd.DataFrame(
             match_susp_embeddings_with_src_embeddings(susp_embeddings, src_emb), 
             columns=df_columns

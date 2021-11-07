@@ -14,7 +14,7 @@ suspicious_docs_table = """
         num_of_sentences int,
         is_plg boolean default false,
         num_of_plg_sentences int,
-        unique_filename varchar(50) unique,
+        unique_filename varchar(100) unique,
         user_id int,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     );

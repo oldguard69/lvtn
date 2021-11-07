@@ -17,6 +17,11 @@
     <td mat-cell *matCellDef="let element">{{ isFindPlagiarismParagraph(element.is_plg) }}</td>
   </ng-container>
 
+  <!-- <ng-container matColumnDef="percentage">
+    <th mat-header-cell *matHeaderCellDef>%</th>
+    <td mat-cell *matCellDef="let element">{{ percentageOfPlagiarism(element.num_of_sentences, element.num_of_plg_sentences) }}</td>
+  </ng-container> -->
+
   <ng-container matColumnDef="view-detail">
     <th mat-header-cell *matHeaderCellDef>Xem chi tiết</th>
     <td mat-cell *matCellDef="let element">

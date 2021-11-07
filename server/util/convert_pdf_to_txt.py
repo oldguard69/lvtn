@@ -1,7 +1,7 @@
 from os.path import join as osjoin
 
 import nltk
-nltk.download('punkt')
+# nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
 import tika
 tika.initVM()
