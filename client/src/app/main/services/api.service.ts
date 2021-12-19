@@ -26,7 +26,7 @@ export class ApiService {
 
           const t = res.map((item, index) => ({
             ...item,
-            colorClass: `color-${index}`,
+            colorClass: `color-${index % 13}`, // there are only 13 colors
             srcIndexRange: new Set(
               this.range(item.src_paragraph_length, item.src_start_index)
             ),

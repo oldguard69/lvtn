@@ -1,5 +1,6 @@
 from os.path import join as osjoin
 
+from langdetect import detect
 import nltk
 # nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
@@ -23,10 +24,13 @@ def convert_pdf_to_txt(pdf_file, unique_name):
     sents = sent_tokenize(remove_dup_whitespace_text)
     merged_sents = merge_short_sentence(sents, 100)
 
+    vn_sentences_only = [sent for sent in merged_sents if detect(sent) == 'vi']
+
     file_manager.write_whole_file(f'corpus/raw_text/raw_{unique_name}.txt', raw_text)
     file_manager.write_whole_file(f'corpus/raw_text/clean_{unique_name}.txt', clean_text)
     # file_manager.write_lines(f'utl/fil/final_{pdf_file[:-4]}.txt', merged_sents)
-    return merged_sents
+    # return merged_sents
+    return vn_sentences_only
 
 
 # pdf_file = osjoin('paper_5.pdf')

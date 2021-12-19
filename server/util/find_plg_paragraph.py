@@ -91,15 +91,15 @@ def find_plagirised_paragraph_with_df_of_a_same_source(df, src_file):
                     is_last = True
 
                 src_index_offset = row[SRC_INDEX] - \
-                    temp_stats['prev_src_index']
+                    temp_stats['prev_src_index'] - 1
                 susp_index_offset = row[SUSP_INDEX] - \
-                    temp_stats['prev_susp_index']
+                    temp_stats['prev_susp_index'] - 1
 
                 # <=: nếu khoảng cách giữa hai câu susp liền kề nhỏ hơn 2
-                # >: và hai câu này là khác nhau. Vd: 2 câu susp liền kề có index đều là 1.
+                # >=: và hai câu này là khác nhau. Vd: 2 câu susp liền kề có index đều là 1.
                 # tương tự với điều kiện của src_index_offset
-                if susp_index_offset <= 2 and susp_index_offset > 0:
-                    if src_index_offset <= 2 and src_index_offset > 0:
+                if susp_index_offset <= 2 and susp_index_offset >= 0:
+                    if src_index_offset <= 2 and src_index_offset >= 0:
                         res[i]['prev_susp_index'] = row[SUSP_INDEX]
                         res[i]['prev_src_index'] = row[SRC_INDEX]
                         res[i]['real_paragraph_length'] = row[SUSP_INDEX] - \
