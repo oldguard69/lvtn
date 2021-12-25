@@ -103,25 +103,34 @@ select_embeddings = """
 ###################################### SUSPICIOUS DOCS ######################################
 insert_a_susp_doc = """
     INSERT INTO
-        suspicious_docs (filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id)
+        suspicious_docs (
+            filename, 
+            num_of_sentences, 
+            is_plg, 
+            num_of_plg_sentences, 
+            unique_filename, 
+            user_id,
+            num_of_plg_paragraphs
+        )
     VALUES
-        (%s, %s, %s, %s, %s, %s)
+        (%s, %s, %s, %s, %s, %s, %s)
     RETURNING
         id;
 """
 
 select_suspicious_docs = """
     SELECT
-        id, filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id
+        id, filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id, num_of_plg_paragraphs
     FROM
         suspicious_docs
     WHERE
-        user_id = %s;
+        user_id = %s
+    ORDER BY id;
 """
 
 select_a_suspicious_doc = """
     SELECT
-        id, filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id
+        id, filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id, num_of_plg_paragraphs
     FROM 
         suspicious_docs
     WHERE

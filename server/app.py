@@ -1,6 +1,5 @@
 import os
 import uuid
-from time import sleep
 from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, flash, request, jsonify
@@ -9,8 +8,7 @@ from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-from controllers.check_plagiarism import check_plagiarism
-from controllers.check_plagiarism import handle_pdf
+from controllers.check_plagiarism import handle_pdf, handle_txt
 from util.merge_overlapping_paragraph import merge_overlapping_paragraph
 from util.file_manager import file_manager
 from controllers.helpers import return_response, allowed_file
@@ -27,12 +25,14 @@ load_dotenv(find_dotenv())
 SRC_CORPUS_DIR = './corpus/src'
 PRODUCTION_SUSP_DIR = './corpus/production_susp'
 PRODUCTION_SUSP_PDF_DIR = os.path.join(PRODUCTION_SUSP_DIR, 'pdf')
+PRODUCTION_SUSP_TXT_DIR = os.path.join(PRODUCTION_SUSP_DIR, 'txt')
 PRODUCTION_SUSP_STATS_DIR = './corpus/production_susp_stats'
 
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = PRODUCTION_SUSP_DIR
 app.config['UPLOAD_PDF_FOLDER'] = PRODUCTION_SUSP_PDF_DIR
+app.config['UPLOAD_TXT_FOLDER'] = PRODUCTION_SUSP_TXT_DIR
 app.secret_key = os.getenv('secret_key')
 app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 CORS(app)
@@ -100,9 +100,11 @@ def upload_file():
             pdf_file = os.path.join(app.config['UPLOAD_PDF_FOLDER'], unique_name) 
             file.save(pdf_file)
             res = handle_pdf(pdf_file, user_id, filename, unique_name)
-        else:   
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_name))
-            res = check_plagiarism(user_id, filename, unique_name)
+        else:
+            txt_file = os.path.join(app.config['UPLOAD_TXT_FOLDER'], unique_name)
+            file.save(txt_file)
+            # res = check_plagiarism(user_id, filename, unique_name)
+            res = handle_txt(txt_file, user_id, filename, unique_name)
 
         return return_response({'result': res})
 

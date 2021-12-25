@@ -52,17 +52,19 @@ def convert_raw_suspicious_row(row):
         'num_of_plg_sentences': row[4],
         'unique_filename': row[5],
         'user_id': row[6],
+        'num_of_plg_paragraphs': row[7]
     }
 
 def insert_a_suspicious_doc(
     filename: str, num_of_sentences: int, is_plg: bool, num_of_plg_sentences: int, 
-    unique_filename: str, user_id: int
+    unique_filename: str, user_id: int, num_of_plg_paragraphs: int
 ):
     with conn.cursor() as cur:
         cur.execute(
             Q.insert_a_susp_doc, (
                 filename, num_of_sentences, is_plg, 
-                num_of_plg_sentences, unique_filename, user_id
+                num_of_plg_sentences, unique_filename, user_id,
+                num_of_plg_paragraphs
             )
         )
         susp_id = cur.fetchone()[0]

@@ -5,5 +5,6 @@ export interface SuspiciousDoc {
     is_plg: boolean,
     filename: string,
     unique_filename: string,
-    user_id: number
+    user_id: number,
+    num_of_plg_paragraphs: number
 }

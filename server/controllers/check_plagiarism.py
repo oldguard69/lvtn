@@ -7,7 +7,9 @@ from util.find_plg_paragraph import get_dataframe_contain_plagiarised_sentences
 from util.find_plg_paragraph import find_plagiarised_paragraph
 from util.file_manager import file_manager
 from util.sentence_transformer import sentence_transfomer
-from util.convert_pdf_to_txt import convert_pdf_to_txt
+from util.convert_pdf_to_txt import convert_pdf_to_txt, get_vn_only_sentences
+from util.merge_overlapping_paragraph import merge_overlapping_paragraph
+
 
 classifier = file_manager.pickle_load('./util/model/classifier.pk')
 
@@ -49,7 +51,8 @@ def check_plagiarism(user_id, filename, unique_filename):
     res = find_plagiarised_paragraph(plg_sents_df)
     if len(res):
         is_plg = True
-        num_of_plg_paragraph = len(res)
+        # merged overlapping sentences and then find number of paragraph
+        num_of_plg_paragraph = len(merge_overlapping_paragraph(res))
         num_of_plg_sentences = get_number_of_plg_sentences(res)
     
     
@@ -61,7 +64,13 @@ def check_plagiarism(user_id, filename, unique_filename):
     file_manager.write_json(osjoin(susp_stats_dir, f'{unique_filename}.json'), res)
     
     doc_id = insert_a_suspicious_doc(
-        filename, num_of_sentences, is_plg, num_of_plg_sentences, unique_filename, user_id
+        filename, 
+        num_of_sentences, 
+        is_plg, 
+        num_of_plg_sentences, 
+        unique_filename, 
+        user_id,
+        num_of_plg_paragraph
     )
 
     return {
@@ -78,4 +87,13 @@ def check_plagiarism(user_id, filename, unique_filename):
 def handle_pdf(pdf_file, user_id, filename, unique_filename):
     merged_sents = convert_pdf_to_txt(pdf_file, unique_filename)
     file_manager.write_lines(osjoin('corpus', 'production_susp', unique_filename), merged_sents)
+    return check_plagiarism(user_id, filename, unique_filename)
+
+
+def handle_txt(txt_file, user_id, filename, unique_filename):
+    vn_only_sents = get_vn_only_sentences(txt_file)
+    file_manager.write_lines(
+        osjoin('corpus', 'production_susp', unique_filename), 
+        vn_only_sents
+    )
     return check_plagiarism(user_id, filename, unique_filename)

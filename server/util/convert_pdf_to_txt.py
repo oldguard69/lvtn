@@ -28,11 +28,10 @@ def convert_pdf_to_txt(pdf_file, unique_name):
 
     file_manager.write_whole_file(f'corpus/raw_text/raw_{unique_name}.txt', raw_text)
     file_manager.write_whole_file(f'corpus/raw_text/clean_{unique_name}.txt', clean_text)
-    # file_manager.write_lines(f'utl/fil/final_{pdf_file[:-4]}.txt', merged_sents)
-    # return merged_sents
     return vn_sentences_only
 
 
-# pdf_file = osjoin('paper_5.pdf')
-# convert_pdf_to_txt(pdf_file)
-# print('done')
+def get_vn_only_sentences(txt_file):
+    sents = file_manager.read_line_by_line(txt_file)
+    vn_sentences_only = [sent for sent in sents if detect(sent) == 'vi']
+    return vn_sentences_only
