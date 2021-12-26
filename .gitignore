@@ -16,3 +16,5 @@ embeddings
 __pycache__/
 
 util/fil/
+
+*.pdf

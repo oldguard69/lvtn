@@ -58,3 +58,11 @@ export const SetCurrentSentencesIndex = createAction(
     '[Result] Set Current Stats',
     props<{index: number}>()
 );
+
+export const MoveToNextSrcDoc = createAction(
+    '[Result] Move To Next Docs'
+)
+
+export const MoveToPreviousSrcDoc = createAction(
+    '[Result] Move To Previous Docs'
+)

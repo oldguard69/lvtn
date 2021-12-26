@@ -42,3 +42,11 @@ export const selectSupiciousDocDetailFilename = createSelector(
   selectMainFeatureKey,
   (state) => state.suspDocDetail?.filename
 )
+
+export const selectNumberOfParagraph = createSelector(
+  selectMainFeatureKey,
+  (state) => ({
+    totalParagraph: state.stats.length, 
+    currentParagraph: state.currentParaNumber
+  })
+)

@@ -10,7 +10,8 @@ import {
   selectSuspiciousSentences,
   selectSuspiciousStats,
   selectSentenceIndex,
-  selectSupiciousDocDetailFilename
+  selectSupiciousDocDetailFilename,
+  selectNumberOfParagraph
 } from '../../state/selectors';
 
 @Component({
@@ -34,14 +35,16 @@ export class ResultComponent implements OnInit {
     this.store.select(selectSourceSentences),
     this.store.select(selectSuspiciousSentences),
     this.store.select(selectSentenceIndex),
-    this.store.select(selectSupiciousDocDetailFilename)
+    this.store.select(selectSupiciousDocDetailFilename),
+    this.store.select(selectNumberOfParagraph)
   ]).pipe(
-    map(([fileStat, src_sent, susp_sent, sentIndex, suspFilename]) => ({
+    map(([fileStat, src_sent, susp_sent, sentIndex, suspFilename, numOfParagraph]) => ({
       fileStat,
       src_sent,
       susp_sent,
       sentIndex,
-      suspFilename
+      suspFilename,
+      numOfParagraph
     }))
   );
 
@@ -77,11 +80,13 @@ export class ResultComponent implements OnInit {
       ? (this.doc_index = this.source_doc_list.length - 1)
       : this.doc_index--;
     this.moveSourceFile();
+    this.store.dispatch(actions.MoveToPreviousSrcDoc());
   }
 
   load_next_doc() {
     this.doc_index = (this.doc_index + 1) % this.source_doc_list.length;
     this.moveSourceFile();
+    this.store.dispatch(actions.MoveToNextSrcDoc());
   }
 
   private moveSourceFile() {

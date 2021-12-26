@@ -15,7 +15,10 @@
           <button mat-raised-button color="primary" (click)="load_prev_doc()">Đoạn trước</button>
           <div class="src-name">
             <p><strong>{{ current_source_doc$ | async }}</strong></p>
-            <p>{{vm.sentIndex.src}}</p>
+            <p>
+              {{vm.sentIndex.src}}
+              (Đoạn {{vm.numOfParagraph.currentParagraph}}/{{vm.numOfParagraph.totalParagraph}})
+            </p>
           </div>
           <button mat-raised-button color="primary" (click)="load_next_doc()">Đoạn tiếp theo</button>
         </div>

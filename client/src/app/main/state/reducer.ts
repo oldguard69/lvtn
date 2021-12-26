@@ -12,6 +12,7 @@ export interface MainState {
   suspDocDetail?: SuspiciousDoc;
   currentSrcIndex?: string;
   currentSuspIndex?: string;
+  currentParaNumber: number;
 }
 
 const initialState: MainState = {
@@ -23,6 +24,7 @@ const initialState: MainState = {
   suspDocDetail: undefined,
   currentSrcIndex: undefined,
   currentSuspIndex: undefined,
+  currentParaNumber: 1
 };
 
 export const mainReducer = createReducer(
@@ -38,7 +40,8 @@ export const mainReducer = createReducer(
     currentSuspIndex: formatSentenceIndex(
       res[0].susp_insert_index,
       res[0].susp_paragraph_length
-    )
+    ),
+    currentParaNumber: 1
   })),
   on(actions.GetSuspFileSentencesSuccess, (state, { res }) => ({
     ...state,
@@ -66,9 +69,40 @@ export const mainReducer = createReducer(
       state.stats[index].susp_insert_index,
       state.stats[index].susp_paragraph_length
     )
-  }))
+  })),
+  on(actions.MoveToNextSrcDoc, (state => ({
+    ...state,
+    currentParaNumber: changeParagraphNumber(
+      true, state.currentParaNumber, state.stats.length
+    )
+  }))),
+  on(actions.MoveToPreviousSrcDoc, (state => ({
+    ...state,
+    currentParaNumber: changeParagraphNumber(
+      false, state.currentParaNumber, state.stats.length
+    )
+  })))
 );
 
 function formatSentenceIndex(index: number, length: number): string {
   return `Câu ${index} đến ${index + length - 1}`;
+}
+
+function changeParagraphNumber(isNext: boolean, currentParaNumber: number, numOfParagraph: number): number {
+  let newParaNumber;
+  if (isNext) {
+    if (currentParaNumber == numOfParagraph) {
+      return 1;
+    } else {
+      newParaNumber = currentParaNumber + 1;
+      return newParaNumber
+    }
+  } else {
+    if (currentParaNumber == 1) {
+      return numOfParagraph;
+    } else {
+      newParaNumber = currentParaNumber - 1;
+      return newParaNumber
+    }
+  }
 }
