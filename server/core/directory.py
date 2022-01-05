@@ -8,15 +8,21 @@ ctu_dir = osjoin(paper_root_dir, 'ctu')
 stats_about_file_dir = osjoin('..', 'stats_about_files')
 root_dir = osjoin('..', 'corpus')
 
+# store all documents
 all_doc_dir = osjoin(root_dir, 'all_doc')
 
+# store source documents
 src_dir = osjoin(root_dir, 'src')
+# store raw suspicious documents
 raw_susp_dir = osjoin(root_dir, 'raw_susp')
+# store suspicious documents after making plagiarism docs
 susp_dir = osjoin(root_dir, 'susp')
 
+# store plagiarism paragraph location in suspicious docs
 susp_stats_dir = osjoin(root_dir, 'susp_stats')
 predict_susp_stats_dir = osjoin(root_dir, 'predicted_susp_stats')
 
+# store embedding of documents, in pickle format
 embeddings_dir = 'embeddings'
 src_embeddings_dir = osjoin(embeddings_dir, 'src')
 susp_embeddings_dir = osjoin(embeddings_dir, 'susp')

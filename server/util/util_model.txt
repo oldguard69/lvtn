@@ -1,0 +1,26 @@
+model
+├── classifier.pk   : SVM model from Sklearn
+├── phobert_using_transformer   : PhoBERT model from transfomer
+│   ├── added_tokens.json
+│   ├── bpe.codes
+│   ├── config.json
+│   ├── pytorch_model.bin
+│   ├── special_tokens_map.json
+│   ├── tokenizer_config.json
+│   └── vocab.txt
+└── vncorenlp   : VnCoreNLP model
+    ├── VnCoreNLP-1.1.1.jar
+    └── models
+        ├── dep
+        │   └── vi-dep.xz
+        ├── ner
+        │   ├── vi-500brownclusters.xz
+        │   ├── vi-ner.xz
+        │   └── vi-pretrainedembeddings.xz
+        ├── postagger
+        │   └── vi-tagger.gz
+        └── wordsegmenter
+            ├── vi-vocab
+            └── wordsegmenter.rdr
+
+7 directories, 16 files
